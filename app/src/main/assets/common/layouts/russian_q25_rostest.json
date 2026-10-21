@@ -1,6 +1,6 @@
 {
-  "name": "Русский Ростест (по фото)",
-  "description": "Русская раскладка по маркировке клавиш Titan 2 / Elite / Elite Pro.",
+  "name": "Русский Ростест",
+  "description": "Русская раскладка Ростест для Titan 2 / Elite / Pro.",
   "mappings": {
     "KEYCODE_Q": {
       "lowercase": "й",
