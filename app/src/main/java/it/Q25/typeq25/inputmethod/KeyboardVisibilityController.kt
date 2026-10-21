@@ -41,8 +41,8 @@ class KeyboardVisibilityController(
     }
 
     fun onEvaluateInputViewShown(shouldShowInputView: Boolean): Boolean {
-        forceCandidatesUi = !shouldShowInputView
-        candidatesBarController.setForceMinimalUi(forceCandidatesUi)
+        forceCandidatesUi = false
+        candidatesBarController.setForceMinimalUi(false)
         setCandidatesViewShown(false)
         return true
     }
