@@ -54,7 +54,7 @@ fun CurrencyKeySettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit)
                     )
                 }
                 Text(
-                    text = "Currency Key Settings",
+                    text = "Специальная клавиша",
                     style = MaterialTheme.typography.headlineSmall
                 )
             }
@@ -77,7 +77,7 @@ fun CurrencyKeySettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit)
                     readOnly = true,
                     value = selectedCurrency,
                     onValueChange = {},
-                    label = { Text("Currency") },
+                    label = { Text("Символ валюты") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 )
@@ -100,7 +100,7 @@ fun CurrencyKeySettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit)
                 CurrencyManager.setCurrency(context, selectedCurrency)
                 onBack()
             }) {
-                Text("Save")
+                Text("Сохранить")
             }
         }
     }
