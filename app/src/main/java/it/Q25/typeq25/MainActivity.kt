@@ -172,10 +172,10 @@ fun DeviceSelectionDialog(onDeviceSelected: (String) -> Unit, onDismiss: () -> U
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Your Device") },
+        title = { Text("Выберите устройство") },
         text = {
             Column {
-                Text("Please select your device to apply the correct key mappings.")
+                Text("Выберите модель для применения клавиш.")
                 Spacer(modifier = Modifier.height(16.dp))
                 ExposedDropdownMenuBox(
                     expanded = expanded,
@@ -186,7 +186,7 @@ fun DeviceSelectionDialog(onDeviceSelected: (String) -> Unit, onDismiss: () -> U
                         readOnly = true,
                         value = selectedDevice,
                         onValueChange = {},
-                        label = { Text("Device") },
+                        label = { Text("Устройство") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     )
@@ -209,7 +209,7 @@ fun DeviceSelectionDialog(onDeviceSelected: (String) -> Unit, onDismiss: () -> U
         },
         confirmButton = {
             Button(onClick = { onDeviceSelected(selectedDevice) }) {
-                Text("Save")
+                Text("Сохранить")
             }
         }
     )
