@@ -43,18 +43,15 @@ class SuggestionEngine(private val context: Context) {
     private fun loadSuggestionsFromAssets() {
         try {
             val assetManager = context.assets
-            val suggestionsFile = "common/autocorrect/suggestions_en.json"
-            
-            if (assetManager.list("common/autocorrect")?.contains("suggestions_en.json") == true) {
-                val json = assetManager.open(suggestionsFile).bufferedReader().use { it.readText() }
-                val suggestions = org.json.JSONObject(json)
-                
-                for (key in suggestions.keys()) {
-                    val frequency = suggestions.getInt(key)
-                    dictionaryWords[key.lowercase()] = frequency
+            for (file in listOf("suggestions_en.json", "suggestions_ru.json")) {
+                if (assetManager.list("common/autocorrect")?.contains(file) == true) {
+                    val json = assetManager.open("common/autocorrect/$file")
+                        .bufferedReader().use { it.readText() }
+                    val words = org.json.JSONObject(json)
+                    for (key in words.keys()) {
+                        dictionaryWords[key.lowercase()] = words.optInt(key, 50)
+                    }
                 }
-                
-                Log.d(TAG, "Loaded ${suggestions.length()} suggestions from assets")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error loading suggestions from assets", e)
@@ -69,6 +66,7 @@ class SuggestionEngine(private val context: Context) {
     fun loadDictionaryWords(corrections: Map<String, Map<String, String>>) {
         Log.d(TAG, "loadDictionaryWords: loading from ${corrections.size} language dictionaries")
         dictionaryWords.clear()
+        loadSuggestionsFromAssets()
         
         // Get enabled languages from settings
         val enabledLanguages = it.srik.TypeQ25.SettingsManager.getAutoCorrectEnabledLanguages(context)
