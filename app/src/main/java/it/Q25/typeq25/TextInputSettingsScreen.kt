@@ -26,7 +26,6 @@ import it.srik.TypeQ25.R
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import it.srik.TypeQ25.inputmethod.SpeechAppChooserActivity
 
 /**
  * Text Input settings screen.
@@ -62,14 +61,6 @@ fun TextInputSettingsScreen(
         mutableStateOf(SettingsManager.getAutoShowKeyboard(context))
     }
     
-    var altCtrlSpeechShortcut by remember {
-        mutableStateOf(SettingsManager.getAltCtrlSpeechShortcutEnabled(context))
-    }
-    
-    var preferredSpeechApp by remember {
-        mutableStateOf(SettingsManager.getPreferredSpeechApp(context))
-    }
-
     var keycode7Behavior by remember {
         mutableStateOf(SettingsManager.getKeycode7Behavior(context))
     }
@@ -84,16 +75,6 @@ fun TextInputSettingsScreen(
     
     var spellCheckEnabled by remember {
         mutableStateOf(SettingsManager.getSpellCheckEnabled(context))
-    }
-    
-    // Launcher for speech app chooser
-    val speechAppChooserLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == android.app.Activity.RESULT_OK) {
-            // Refresh the preference
-            preferredSpeechApp = SettingsManager.getPreferredSpeechApp(context)
-        }
     }
     
     Scaffold(
@@ -207,49 +188,6 @@ fun TextInputSettingsScreen(
                         onCheckedChange = { enabled ->
                             autoCapitalizeAfterPeriod = enabled
                             SettingsManager.setAutoCapitalizeAfterPeriod(context, enabled)
-                        }
-                    )
-                }
-            }
-
-            // Spell Checker
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.TextFields,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(R.string.spell_check_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Medium,
-                            maxLines = 1
-                        )
-                        Text(
-                            text = stringResource(R.string.spell_check_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
-                    Switch(
-                        checked = spellCheckEnabled,
-                        onCheckedChange = { enabled ->
-                            spellCheckEnabled = enabled
-                            SettingsManager.setSpellCheckEnabled(context, enabled)
                         }
                     )
                 }
@@ -557,185 +495,6 @@ fun TextInputSettingsScreen(
                 }
             }
 
-            // Alt+Ctrl Speech Recognition Shortcut - Only show for non-Q25 devices
-            if (device != "Q25") {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.TextFields,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = stringResource(R.string.alt_ctrl_speech_shortcut_title),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Medium,
-                                maxLines = 1
-                            )
-                            Text(
-                                text = stringResource(R.string.alt_ctrl_speech_shortcut_description),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 1
-                            )
-                        }
-                        Switch(
-                            checked = altCtrlSpeechShortcut,
-                            onCheckedChange = { enabled ->
-                                altCtrlSpeechShortcut = enabled
-                                SettingsManager.setAltCtrlSpeechShortcutEnabled(context, enabled)
-                            }
-                        )
-                    }
-                }
-            }
-            
-            // Speech Recognition App Selection
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .clickable {
-                        val intent = Intent(context, SpeechAppChooserActivity::class.java)
-                        speechAppChooserLauncher.launch(intent)
-                    }
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.TextFields,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(R.string.speech_app_selection_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Medium,
-                            maxLines = 1
-                        )
-                        Text(
-                            text = preferredSpeechApp?.let {
-                                stringResource(R.string.speech_app_selection_current, it)
-                            } ?: stringResource(R.string.speech_app_selection_not_set),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            
-            // Default 0 key behaviour (Q25 Device)
-            if (Build.MODEL.contains("Jelly2", ignoreCase = true) || Build.MODEL.contains("Q25", ignoreCase = true)) {
-                Text(
-                    text = "Действие клавиши 0",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
-                )
-                
-                // Option 1: Insert 0
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        .clickable {
-                            keycode7Behavior = "zero"
-                            SettingsManager.setKeycode7Behavior(context, "zero")
-                        }
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        RadioButton(
-                            selected = keycode7Behavior == "zero",
-                            onClick = {
-                                keycode7Behavior = "zero"
-                                SettingsManager.setKeycode7Behavior(context, "zero")
-                            }
-                        )
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "Вставить 0",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = "Обычное нажатие вводит 0, Alt+0 запускает голосовой ввод",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-                
-                // Option 2: Activate speech to text
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        .clickable {
-                            keycode7Behavior = "alt_zero"
-                            SettingsManager.setKeycode7Behavior(context, "alt_zero")
-                        }
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        RadioButton(
-                            selected = keycode7Behavior == "alt_zero",
-                            onClick = {
-                                keycode7Behavior = "alt_zero"
-                                SettingsManager.setKeycode7Behavior(context, "alt_zero")
-                            }
-                        )
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "Включить голосовой ввод",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = "Обычное нажатие запускает диктовку, Alt+0 вводит 0",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }
