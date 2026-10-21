@@ -73,11 +73,7 @@ fun TextInputSettingsScreen(
         mutableStateOf(SettingsManager.getSymbolShortcodeEnabled(context))
     }
     
-    var spellCheckEnabled by remember {
-        mutableStateOf(SettingsManager.getSpellCheckEnabled(context))
-    }
-    
-    Scaffold(
+Scaffold(
         topBar = {
             Surface(
                 modifier = Modifier
