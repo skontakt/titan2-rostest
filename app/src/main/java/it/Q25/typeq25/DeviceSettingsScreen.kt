@@ -53,7 +53,7 @@ fun DeviceSettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
                     )
                 }
                 Text(
-                    text = "Device Settings",
+                    text = "Настройки устройства",
                     style = MaterialTheme.typography.headlineSmall
                 )
             }
@@ -76,7 +76,7 @@ fun DeviceSettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
                     readOnly = true,
                     value = selectedDevice,
                     onValueChange = {},
-                    label = { Text("Device") },
+                    label = { Text("Устройство") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 )
@@ -99,7 +99,7 @@ fun DeviceSettingsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
                 DeviceManager.setDevice(context, selectedDevice)
                 onBack()
             }) {
-                Text("Save")
+                Text("Сохранить")
             }
         }
     }
