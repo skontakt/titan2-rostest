@@ -35,18 +35,23 @@ for layout_file in layouts_dir.glob("*.json"):
         layout_file.unlink()
 
 # The photo shows these Cyrillic letters against Latin hardware key positions.
-# For paired keys, first character is printed with the Latin legend and
-# the second at the top; fast successive presses cycle through the pair.
+# For paired keys, the UPPER printed Cyrillic character is entered first;
+# the LOWER printed Cyrillic character is entered on the next tap.
 photo = {
-    "Q": "цй", "W": "у", "E": "к", "R": "её", "T": "н",
-    "Y": "г", "U": "щш", "I": "з", "O": "ъх", "P": "ю",
-    "A": "ьф", "S": "в", "D": "а", "F": "п", "G": "р",
-    "H": "о", "J": "л", "K": "д", "L": "эж",
-    "Z": "чя", "X": "с", "C": "м", "V": "и",
-    "B": "т", "N": "ы", "M": "б",
+    "Q": "йц", "W": "у", "E": "к", "R": "её", "T": "н",
+    "Y": "г", "U": "шщ", "I": "з", "O": "хъ", "P": "ю",
+    "A": "фы", "S": "в", "D": "а", "F": "п", "G": "р",
+    "H": "о", "J": "л", "K": "д", "L": "жэ",
+    "Z": "яч", "X": "с", "C": "м", "V": "и",
+    "B": "т", "N": "ь", "M": "б",
 }
 assert len(photo) == 26
+assert len("".join(photo.values())) == 33
 assert set("".join(photo.values())) == set("абвгдеёжзийклмнопрстуфхцчшщъыьэюя")
+assert {k: v for k, v in photo.items() if len(v) == 2} == {
+    "Q": "йц", "R": "её", "U": "шщ", "O": "хъ",
+    "A": "фы", "L": "жэ", "Z": "яч",
+}
 
 def mapped(letter):
     base = {
