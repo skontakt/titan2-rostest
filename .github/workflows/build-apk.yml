@@ -1,0 +1,117 @@
+name: Сборка APK Titan 2 / Elite / Pro
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/build-apk.yml'
+      - 'app/**'
+      - 'gradle/**'
+      - 'gradlew'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Загрузить titan2-rostest
+        uses: actions/checkout@v4
+
+      - name: Подготовить исходники TypeQ25 при первой сборке
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f "app/build.gradle.kts" ]; then
+            git clone --depth 1 --branch master https://github.com/skontakt/TypeQ25.git /tmp/typeq25
+            rsync -a \
+              --exclude '.git' \
+              --exclude '.github' \
+              --exclude '*.md' \
+              --exclude 'README*' \
+              /tmp/typeq25/ "$GITHUB_WORKSPACE/"
+            python3 scripts/prepare_titan2.py
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Import TypeQ25 adapted for Titan 2, Elite, Elite Pro"
+            git push origin HEAD:main
+          else
+            echo "Исходники уже загружены"
+          fi
+
+      - name: Проверить расположение русских букв по фото
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("app/src/main/assets/common/layouts")
+          expected = {
+              "Q": "йц", "W": "у", "E": "к", "R": "её", "T": "н",
+              "Y": "г", "U": "шщ", "I": "з", "O": "хъ", "P": "ю",
+              "A": "фы", "S": "в", "D": "а", "F": "п", "G": "р",
+              "H": "о", "J": "л", "K": "д", "L": "жэ",
+              "Z": "яч", "X": "с", "C": "м", "V": "и",
+              "B": "т", "N": "ь", "M": "б",
+          }
+          data = json.loads((p / "russian_q25_rostest.json").read_text())
+          actual = {}
+          for key, mapping in data["mappings"].items():
+              actual[key.removeprefix("KEYCODE_")] = "".join(
+                  t["lowercase"] for t in mapping.get("taps", [mapping])
+              )
+          assert actual == expected, (actual, expected)
+          assert len(list(p.glob("*.json"))) == 3
+          print("Расположение подтверждено: 33 буквы, первая сверху")
+          PY
+
+      - name: Настроить Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Подготовить Android SDK 36
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_MANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 4 -type f -name sdkmanager -print -quit)"
+          if [ -z "$SDK_MANAGER" ]; then
+            SDK_MANAGER="$(command -v sdkmanager || true)"
+          fi
+          if [ -z "$SDK_MANAGER" ]; then
+            echo "::error::sdkmanager недоступен"
+            exit 1
+          fi
+          "$SDK_MANAGER" --install 'platforms;android-36' 'build-tools;36.0.0'
+
+      - name: Настроить Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Собрать устанавливаемый APK
+        run: bash ./gradlew --no-daemon assembleDebug
+
+      - name: Выпустить APK напрямую, не prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp app/build/outputs/apk/debug/app-debug.apk Titan2-Rostest.apk
+          if gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload v1.0.0 Titan2-Rostest.apk --repo "$GITHUB_REPOSITORY" --clobber
+            gh release edit v1.0.0 --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false
+          else
+            gh release create v1.0.0 Titan2-Rostest.apk \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "Клавиатура для Titan 2 / Elite / Pro — v1.0.0" \
+              --notes "Поддерживаются Titan 2, Titan 2 Elite и Titan 2 Elite Pro. Английская, русский транслит, русский Ростест. Переключение: Alt + Пробел. Скачайте APK, установите и включите клавиатуру в настройках Android. APK подписан отладочным ключом." \
+              --latest
+          fi
