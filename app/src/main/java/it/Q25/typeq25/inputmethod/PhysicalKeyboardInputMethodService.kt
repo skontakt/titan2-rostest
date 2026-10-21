@@ -533,6 +533,9 @@ private lateinit var candidatesBarController: CandidatesBarController
     
     override fun onCreate() {
         super.onCreate()
+        // Erase histories created by older releases before accepting any input.
+        getSharedPreferences("clipboard_history", Context.MODE_PRIVATE).edit().clear().apply()
+        getSharedPreferences("user_word_history", Context.MODE_PRIVATE).edit().clear().apply()
         
         // Set instance for direct access from other components
         instance = this
