@@ -205,13 +205,13 @@ fun CustomizationSettingsScreen(
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Customize Variations",
+                            text = "Изменить дополнительные символы",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1
                         )
                         Text(
-                            text = "Edit character variations and default special characters",
+                            text = "Настроить дополнительные буквы и символы",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
@@ -247,13 +247,13 @@ fun CustomizationSettingsScreen(
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Custom Emojis",
+                            text = "Свои эмодзи",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1
                         )
                         Text(
-                            text = "Add and manage custom emojis with shortcodes",
+                            text = "Добавлять эмодзи и их короткие коды",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
