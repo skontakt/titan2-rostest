@@ -285,7 +285,7 @@ private fun LauncherShortcutAssignmentBottomSheet(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Shortcut",
+                        text = "Сочетание",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
