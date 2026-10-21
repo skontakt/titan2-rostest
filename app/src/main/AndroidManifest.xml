@@ -3,35 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="it.srik.TypeQ25">
 
-    <!-- Permission for notifications (required by Android 13+) -->
+    <!-- Offline, privacy-first input method -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    
-    <!-- Permission for voice recognition -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    
-    <!-- Permission to answer and end calls -->
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
-    
-    <!-- Permission to read phone state (required for isInCall) -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    
-    <!-- Permission to modify call state -->
-    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"
-        tools:ignore="ProtectedPermissions" />
-    
-    <!-- Permission to modify audio settings (mute calls) -->
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    
-    <!-- Permission to modify audio settings (toggle speakerphone) -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    
-    <!-- Permission for Internet access (required for update checking) -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    
-    <!-- Permission to receive boot notifications (Direct Boot support) -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!-- Query to see all installed apps that can be launched -->
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
@@ -46,12 +20,11 @@
     </queries>
 
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="false"
         android:supportsRtl="true"
         android:theme="@style/Theme.TypeQ25">
         <activity
@@ -122,24 +95,6 @@
             </intent-filter>
         </receiver>
         
-        <!-- Helper activity for speech recognition -->
-        <activity
-            android:name=".inputmethod.SpeechRecognitionActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.google.android.inputmethod.latin" />
-        
-        <!-- Activity to choose speech recognition app -->
-        <activity
-            android:name=".inputmethod.SpeechAppChooserActivity"
-            android:theme="@style/Theme.TypeQ25"
-            android:exported="false"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTop"
-            android:taskAffinity="com.google.android.inputmethod.latin" />
-        
         <!-- Activity to assign launcher shortcuts -->
         <activity
             android:name=".inputmethod.LauncherShortcutAssignmentActivity"
@@ -151,18 +106,7 @@
             android:noHistory="true"
             android:finishOnTaskLaunch="true" />
         
-        <!-- Accessibility service for auto-focusing input fields -->
-        <service
-            android:name=".accessibility.AutoFocusAccessibilityService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
-        </service>
+
 
 
     </application>
