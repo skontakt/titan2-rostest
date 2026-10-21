@@ -238,7 +238,7 @@ class VariationBarView(
             )
             
             // Copy button
-            addView(createQuickActionButton("📋", "Copy") {
+            addView(createQuickActionButton("📋", "Копировать") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     val selectedText = ic.getSelectedText(0)
@@ -250,7 +250,7 @@ class VariationBarView(
             })
             
             // Paste button
-            addView(createQuickActionButton("📄", "Paste") {
+            addView(createQuickActionButton("📄", "Вставить") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -265,7 +265,7 @@ class VariationBarView(
             })
             
             // Cut button
-            addView(createQuickActionButton("✂️", "Cut") {
+            addView(createQuickActionButton("✂️", "Вырезать") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     val selectedText = ic.getSelectedText(0)
@@ -278,7 +278,7 @@ class VariationBarView(
             })
             
             // Select All button
-            addView(createQuickActionButton("📝", "Select All") {
+            addView(createQuickActionButton("📝", "Выделить всё") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     ic.performContextMenuAction(android.R.id.selectAll)
@@ -286,7 +286,7 @@ class VariationBarView(
             })
             
             // Undo button
-            addView(createQuickActionButton("↶", "Undo") {
+            addView(createQuickActionButton("↶", "Отменить") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     ic.performContextMenuAction(android.R.id.undo)
@@ -294,7 +294,7 @@ class VariationBarView(
             })
             
             // Clear All button
-            addView(createQuickActionButton("🗑️", "Clear") {
+            addView(createQuickActionButton("🗑️", "Очистить") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     ic.performContextMenuAction(android.R.id.selectAll)
@@ -303,7 +303,7 @@ class VariationBarView(
             })
             
             // Cursor to End button
-            addView(createQuickActionButton("⇥", "End") {
+            addView(createQuickActionButton("⇥", "В конец") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     val extractedText = ic.getExtractedText(ExtractedTextRequest(), 0)
@@ -315,7 +315,7 @@ class VariationBarView(
             })
             
             // Cursor to Start button
-            addView(createQuickActionButton("⇤", "Start") {
+            addView(createQuickActionButton("⇤", "В начало") {
                 hideQuickActionsMenu()
                 currentInputConnection?.let { ic ->
                     ic.setSelection(0, 0)
