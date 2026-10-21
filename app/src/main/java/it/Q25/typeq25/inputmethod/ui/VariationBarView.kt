@@ -3,8 +3,6 @@ package it.srik.TypeQ25.inputmethod.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -31,7 +29,6 @@ import it.srik.TypeQ25.SettingsActivity
 import it.srik.TypeQ25.inputmethod.StatusBarController
 import it.srik.TypeQ25.inputmethod.TextSelectionHelper
 import it.srik.TypeQ25.inputmethod.VariationButtonHandler
-import it.srik.TypeQ25.inputmethod.SpeechRecognitionActivity
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -62,7 +59,6 @@ class VariationBarView(
     private var variationButtons: MutableList<TextView> = mutableListOf()
     private var menuButtonView: ImageView? = null
     private var quickActionsMenu: HorizontalScrollView? = null
-    private var microphoneButtonView: ImageView? = null
     private var lastDisplayedVariations: List<String> = emptyList()
     private var isSymModeActive = false
     private var isSwipeInProgress = false
@@ -236,46 +232,6 @@ class VariationBarView(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            
-            // Copy button
-            addView(createQuickActionButton("📋", "Копировать") {
-                hideQuickActionsMenu()
-                currentInputConnection?.let { ic ->
-                    val selectedText = ic.getSelectedText(0)
-                    if (!selectedText.isNullOrEmpty()) {
-                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("text", selectedText))
-                    }
-                }
-            })
-            
-            // Paste button
-            addView(createQuickActionButton("📄", "Вставить") {
-                hideQuickActionsMenu()
-                currentInputConnection?.let { ic ->
-                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clipData = clipboard.primaryClip
-                    if (clipData != null && clipData.itemCount > 0) {
-                        val text = clipData.getItemAt(0).text
-                        if (text != null) {
-                            ic.commitText(text, 1)
-                        }
-                    }
-                }
-            })
-            
-            // Cut button
-            addView(createQuickActionButton("✂️", "Вырезать") {
-                hideQuickActionsMenu()
-                currentInputConnection?.let { ic ->
-                    val selectedText = ic.getSelectedText(0)
-                    if (!selectedText.isNullOrEmpty()) {
-                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("text", selectedText))
-                        ic.commitText("", 1)
-                    }
-                }
-            })
             
             // Select All button
             addView(createQuickActionButton("📝", "Выделить всё") {
@@ -486,7 +442,6 @@ class VariationBarView(
         currentVariationsRow = null
         variationButtons.clear()
         hideQuickActionsMenu()
-        removeMicrophoneImmediate()
         container?.visibility = View.GONE
         wrapper?.visibility = View.GONE
         overlay?.visibility = View.GONE
@@ -501,7 +456,6 @@ class VariationBarView(
         val overlayView = overlay
 
         hideQuickActionsMenu()
-        removeMicrophoneImmediate()
 
         if (row != null && row.parent == containerView && row.visibility == View.VISIBLE) {
             animateVariationsOut(row) {
@@ -552,32 +506,9 @@ class VariationBarView(
         // Transparent overlay blocked touch events for menu and suggestion buttons.
         overlayView.visibility = View.GONE
 
-        // Prioritize suggestions over variations - allow showing more items now with scrolling
-        // Allow variations without lastInsertedChar (for default special chars)
-        val hasVariations = snapshot.variations.isNotEmpty()
-        val hasSuggestions = snapshot.suggestions.isNotEmpty()
-        
-        val limitedVariations = if (hasSuggestions && hasVariations) {
-            // Show more suggestions (up to 10), then variations
-            val suggestions = snapshot.suggestions.take(10)
-            val variations = snapshot.variations.take(8)
-            Log.d("VariationBarView", "showVariations: mixing ${suggestions.size} suggestions + ${variations.size} variations")
-            suggestions + variations
-        } else if (hasSuggestions) {
-            // Show up to 15 suggestions when no variations
-            Log.d("VariationBarView", "showVariations: showing ${snapshot.suggestions.size} suggestions: ${snapshot.suggestions}")
-            snapshot.suggestions.take(15)
-        } else if (hasVariations) {
-            // Show variations (could be character variations or default special chars)
-            snapshot.variations.take(20)
-        } else {
-            Log.d("VariationBarView", "showVariations: NO variations or suggestions - will show empty bar with mic/settings")
-            emptyList()
-        }
-
-        Log.d("VariationBarView", "showVariations: hasVariations=$hasVariations, hasSuggestions=$hasSuggestions, limitedVariations=${limitedVariations.size}, lastDisplayed=${lastDisplayedVariations.size}")
-
-        val variationsChanged = limitedVariations != lastDisplayedVariations
+        // Only local character variants and symbols; never display or store words.
+        val limitedVariations = snapshot.variations.take(20)
+                val variationsChanged = limitedVariations != lastDisplayedVariations
         val hasExistingRow = currentVariationsRow != null &&
             currentVariationsRow?.parent != null &&
             currentVariationsRow?.visibility == View.VISIBLE
@@ -679,60 +610,17 @@ class VariationBarView(
 
         lastDisplayedVariations = limitedVariations
 
-        // Create buttons - determine which are suggestions vs variations
-        val suggestionCount = if (hasSuggestions) minOf(snapshot.suggestions.size, limitedVariations.size) else 0
-        
-        // For character variations (when lastInsertedChar exists), we delete before inserting
-        // For default special chars (when lastInsertedChar is null), we just insert
         val shouldDeleteBeforeInsert = snapshot.lastInsertedChar != null
-        
         for ((index, item) in limitedVariations.withIndex()) {
-            val button = if (index < suggestionCount) {
-                // This is a suggestion
-                createSuggestionButton(item, inputConnection, buttonWidth)
-            } else {
-                // This is a variation
-                createVariationButton(item, inputConnection, buttonWidth, shouldDeleteBeforeInsert)
-            }
-            
-            // Suggestions already have WRAP_CONTENT width from createSuggestionButton
-            // Variations need fixed width layout params
-            if (index >= suggestionCount) {
-                val buttonParams = LinearLayout.LayoutParams(buttonWidth, buttonWidth)
-                variationButtons.add(button)
-                variationsRow.addView(button, buttonParams)
-                
-                // Add separator after variation buttons (except the last one)
-                if (index < limitedVariations.size - 1) {
-                    variationsRow.addView(createVerticalSeparator())
-                }
-            } else {
-                // For suggestions, don't override the WRAP_CONTENT layout params
-                variationButtons.add(button)
-                variationsRow.addView(button)
-                // Add separator after suggestions (except the last one)
-                if (index < limitedVariations.size - 1) {
-                    variationsRow.addView(createVerticalSeparator())
-                }
+            val button = createVariationButton(item, inputConnection, buttonWidth, shouldDeleteBeforeInsert)
+            variationButtons.add(button)
+            variationsRow.addView(button, LinearLayout.LayoutParams(buttonWidth, buttonWidth))
+            if (index < limitedVariations.size - 1) {
+                variationsRow.addView(createVerticalSeparator())
             }
         }
 
-        // Add microphone button AFTER the scrollable area (fixed position)
-        val microphoneButton = microphoneButtonView ?: createMicrophoneButton(buttonWidth)
-        microphoneButtonView = microphoneButton
-        (microphoneButton.parent as? ViewGroup)?.removeView(microphoneButton)
-        val micParams = LinearLayout.LayoutParams(buttonWidth, buttonWidth).apply {
-            gravity = Gravity.CENTER_VERTICAL
-            setMargins(0, 0, micRightMargin, 0)
-        }
-        containerView.addView(microphoneButton, micParams)
-        microphoneButton.setOnClickListener {
-            startSpeechRecognition(inputConnection)
-        }
-        microphoneButton.alpha = 1f
-        microphoneButton.visibility = View.VISIBLE
-
-        if (variationsChanged) {
+                if (variationsChanged) {
             animateVariationsIn(variationsRow)
         } else {
             variationsRow.alpha = 1f
@@ -845,32 +733,6 @@ class VariationBarView(
         }
     }
 
-    private fun startSpeechRecognition(inputConnection: android.view.inputmethod.InputConnection?) {
-        try {
-            val intent = Intent(context, SpeechRecognitionActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_NO_HISTORY or
-                        Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-            }
-            context.startActivity(intent)
-            Log.d(TAG, "Speech recognition started")
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to launch speech recognition", e)
-        }
-    }
-
-
-
-    private fun removeMicrophoneImmediate() {
-        microphoneButtonView?.let { microphone ->
-            (microphone.parent as? ViewGroup)?.removeView(microphone)
-            microphone.visibility = View.GONE
-            microphone.alpha = 1f
-        }
-    }
-
-
-
     private fun createVariationButton(
         variation: String,
         inputConnection: android.view.inputmethod.InputConnection?,
@@ -933,95 +795,6 @@ class VariationBarView(
         }
     }
     
-    private fun createSuggestionButton(
-        suggestion: String,
-        inputConnection: android.view.inputmethod.InputConnection?,
-        buttonWidth: Int
-    ): TextView {
-        val dp4 = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            4f,
-            context.resources.displayMetrics
-        ).toInt()
-        val dp6 = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            6f,
-            context.resources.displayMetrics
-        ).toInt()
-
-        val buttonHeight = buttonWidth
-
-        // Use different color for suggestions (BlackBerry theme)
-        val drawable = GradientDrawable().apply {
-            setColor(Color.parseColor("#3F3F3F")) // BlackBerry medium gray
-            cornerRadius = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                context.resources.displayMetrics
-            )
-        }
-        val pressedDrawable = GradientDrawable().apply {
-            setColor(Color.parseColor("#00A0DC")) // BlackBerry blue
-            cornerRadius = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                context.resources.displayMetrics
-            )
-        }
-        val stateListDrawable = android.graphics.drawable.StateListDrawable().apply {
-            addState(intArrayOf(android.R.attr.state_pressed), pressedDrawable)
-            addState(intArrayOf(), drawable)
-        }
-
-        return TextView(context).apply {
-            text = suggestion
-            textSize = 16f
-            setTextColor(Color.parseColor("#BDBDBD")) // BlackBerry silver
-            setTypeface(null, android.graphics.Typeface.NORMAL)
-            gravity = Gravity.CENTER
-            setPadding(dp6, dp4, dp6, dp4)
-            background = stateListDrawable
-            // Use WRAP_CONTENT for width to fit text, fixed height
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                buttonHeight
-            )
-            // Allow single line display
-            maxLines = 1
-            isSingleLine = true
-            isClickable = true
-            isFocusable = true
-            setOnClickListener {
-                inputConnection?.let { ic ->
-                    // Get the current partial word length to delete
-                    val textBefore = ic.getTextBeforeCursor(100, 0) ?: ""
-                    var wordStart = textBefore.length - 1
-                    while (wordStart >= 0) {
-                        val char = textBefore[wordStart]
-                        if (char.isWhitespace() || char in ".,;:!?\"'()[]{}/<>@#\$%^&*+=|\\") {
-                            break
-                        }
-                        wordStart--
-                    }
-                    val partialWordLength = textBefore.length - wordStart - 1
-                    
-                    // Delete partial word and insert suggestion
-                    if (partialWordLength > 0) {
-                        ic.deleteSurroundingText(partialWordLength, 0)
-                    }
-                    ic.commitText(suggestion, 1)
-                    
-                    // Notify service to record this word
-                    (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { service ->
-                        service.suggestionEngine.recordWord(suggestion)
-                    }
-                    
-                    onVariationSelectedListener?.onVariationSelected(suggestion)
-                }
-            }
-        }
-    }
-
     private fun createPlaceholderButton(buttonWidth: Int): View {
         val dp3 = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -1041,36 +814,6 @@ class VariationBarView(
             isFocusable = false
         }
     }
-
-    private fun createMicrophoneButton(buttonSize: Int): ImageView {
-        val drawable = GradientDrawable().apply {
-            setColor(Color.parseColor("#2D2D2D")) // BlackBerry dark gray
-            cornerRadius = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                context.resources.displayMetrics
-            )
-        }
-        val padding = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            6f,
-            context.resources.displayMetrics
-        ).toInt()
-        return ImageView(context).apply {
-            setImageResource(R.drawable.ic_baseline_mic_24)
-            setColorFilter(Color.parseColor("#BDBDBD")) // BlackBerry silver
-            background = drawable
-            scaleType = ImageView.ScaleType.CENTER_INSIDE
-            setPadding(padding, padding, padding, padding)
-            isClickable = true
-            isFocusable = true
-            layoutParams = LinearLayout.LayoutParams(buttonSize, buttonSize).apply {
-                gravity = Gravity.CENTER_VERTICAL
-            }
-        }
-    }
-    
-
 
     private fun createVerticalSeparator(): View {
         val separatorHeight = TypedValue.applyDimension(
