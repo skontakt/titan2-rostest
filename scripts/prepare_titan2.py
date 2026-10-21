@@ -67,8 +67,8 @@ def mapped(letter):
     return base
 
 rostest = {
-    "name": "Русский Ростест (по фото)",
-    "description": "Русская раскладка по маркировке клавиш Titan 2 / Elite / Elite Pro.",
+    "name": "Русский Ростест",
+    "description": "Русская раскладка Ростест для Titan 2 / Elite / Pro.",
     "mappings": {"KEYCODE_" + key: mapped(value) for key, value in photo.items()},
 }
 (layouts_dir / "russian_q25_rostest.json").write_text(
