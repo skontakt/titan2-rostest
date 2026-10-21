@@ -492,13 +492,13 @@ fun TextInputSettingsScreen(
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Emoji Shortcodes",
+                            text = "Короткие коды эмодзи",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1
                         )
                         Text(
-                            text = "Type :smile: to insert 😊",
+                            text = "Введите :smile: для вставки 😊",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
@@ -535,13 +535,13 @@ fun TextInputSettingsScreen(
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Symbol Shortcodes",
+                            text = "Короткие коды символов",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1
                         )
                         Text(
-                            text = "Type :tm: to insert ™, :copy: to insert ©",
+                            text = "Введите :tm: для ™, :copy: для ©",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
@@ -652,7 +652,7 @@ fun TextInputSettingsScreen(
             // Default 0 key behaviour (Q25 Device)
             if (Build.MODEL.contains("Jelly2", ignoreCase = true) || Build.MODEL.contains("Q25", ignoreCase = true)) {
                 Text(
-                    text = "Default 0 key behaviour",
+                    text = "Действие клавиши 0",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
@@ -684,12 +684,12 @@ fun TextInputSettingsScreen(
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Insert 0",
+                                text = "Вставить 0",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
-                                text = "Inserts 0 by default, Alt+0 launches speech to text",
+                                text = "Обычное нажатие вводит 0, Alt+0 запускает голосовой ввод",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -723,12 +723,12 @@ fun TextInputSettingsScreen(
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Activate speech to text",
+                                text = "Включить голосовой ввод",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
-                                text = "Activates speech to text by default, Alt+0 inserts 0",
+                                text = "Обычное нажатие запускает диктовку, Alt+0 вводит 0",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
