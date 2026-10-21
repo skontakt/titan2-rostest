@@ -266,13 +266,13 @@ fun AdvancedSettingsScreen(
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Use Minimal UI",
+                            text = "Упрощённая панель",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1
                         )
                         Text(
-                            text = "Hide suggestions bar and show only modifier badges",
+                            text = "Скрыть подсказки и оставить только индикаторы клавиш",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 2
