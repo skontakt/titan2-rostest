@@ -90,12 +90,12 @@ fun CustomEmojiManagementScreen(
                         refreshTrigger++
                     }
                 ) {
-                    Text("Remove")
+                    Text("Удалить")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { emojiToRemove = null }) {
-                    Text("Cancel")
+                    Text("Отмена")
                 }
             }
         )
@@ -120,7 +120,7 @@ fun CustomEmojiManagementScreen(
                         )
                     }
                     Text(
-                        text = "Custom Emojis",
+                        text = "Свои эмодзи",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(start = 8.dp)
@@ -157,7 +157,7 @@ fun CustomEmojiManagementScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No custom emojis yet.\nTap + to add emojis to any category.",
+                        text = "Своих эмодзи пока нет.\nНажмите +, чтобы добавить эмодзи.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -337,7 +337,7 @@ fun AddCustomEmojiDialog(
                     .padding(24.dp)
             ) {
                 Text(
-                    text = "Add to $category",
+                    text = "Добавить в $category",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -345,7 +345,7 @@ fun AddCustomEmojiDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Text(
-                    text = "Copy emoji to clipboard or enter Unicode",
+                    text = "Вставьте эмодзи из буфера или введите Unicode",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -359,7 +359,7 @@ fun AddCustomEmojiDialog(
                         unicodeInput = it
                         errorMessage = null
                     },
-                    label = { Text("Unicode (optional)") },
+                    label = { Text("Unicode (необязательно)") },
                     placeholder = { Text("e.g. U+1F600 or 1F600") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -403,7 +403,7 @@ fun AddCustomEmojiDialog(
                         shortcodeInput = it.lowercase().filter { c -> c.isLetterOrDigit() || c == '_' }
                         errorMessage = null
                     },
-                    label = { Text("Shortcode name") },
+                    label = { Text("Короткий код") },
                     placeholder = { Text("e.g. my_emoji") },
                     singleLine = true,
                     isError = errorMessage != null,
@@ -422,7 +422,7 @@ fun AddCustomEmojiDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancel")
+                        Text("Отмена")
                     }
                     
                     Spacer(modifier = Modifier.width(8.dp))
@@ -451,7 +451,7 @@ fun AddCustomEmojiDialog(
                             }
                         }
                     ) {
-                        Text("Add")
+                        Text("Добавить")
                     }
                 }
             }
