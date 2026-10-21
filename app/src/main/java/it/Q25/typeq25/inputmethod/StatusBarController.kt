@@ -103,8 +103,7 @@ class StatusBarController(
         val symPage: Int, // 0=disabled, 1=page1 emoji, 2=page2 characters
         val variations: List<String> = emptyList(),
         val lastInsertedChar: Char? = null,
-        val shouldDisableSmartFeatures: Boolean = false,
-        val suggestions: List<String> = emptyList()
+        val shouldDisableSmartFeatures: Boolean = false
     ) {
         val navModeActive: Boolean
             get() = ctrlLatchActive && ctrlLatchFromNavMode
