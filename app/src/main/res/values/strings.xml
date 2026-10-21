@@ -2,417 +2,418 @@
     <string name="app_name">Клавиатура для Titan 2 / Elite / Pro</string>
     <string name="input_method_name">Клавиатура для Titan 2 / Elite / Pro</string>
     <string name="keyboard_brand_subtitle">Английский • русский транслит • Ростест</string>
-    <string name="input_method_name_en">English</string>
-    <string name="input_method_name_it">Italiano</string>
-    <string name="input_method_name_fr">Français</string>
-    <string name="input_method_name_de">Deutsch</string>
-    <string name="input_method_name_pl">Polski</string>
-    <string name="input_method_name_es">Español</string>
+    <string name="input_method_name_ru">Русский</string>
+    <string name="input_method_name_en">Английский</string>
+    <string name="input_method_name_it">Итальянский</string>
+    <string name="input_method_name_fr">Французский</string>
+    <string name="input_method_name_de">Немецкий</string>
+    <string name="input_method_name_pl">Польский</string>
+    <string name="input_method_name_es">Испанский</string>
     
     <!-- Settings Screen -->
-    <string name="settings_title">Settings</string>
-    <string name="back">Back</string>
-    <string name="settings_back_content_description">Back</string>
+    <string name="settings_title">Настройки</string>
+    <string name="back">Назад</string>
+    <string name="settings_back_content_description">Назад</string>
     
     <!-- Long Press Section -->
-    <string name="long_press_title">Long Press</string>
-    <string name="long_press_duration">Long Press Duration: %1$dms</string>
-    <string name="long_press_description">Wait time before a long press is recognized. A lower value makes long press more responsive, while a higher value requires a longer press.</string>
-    <string name="setting_applied_immediately">Setting applied immediately</string>
+    <string name="long_press_title">Долгое нажатие</string>
+    <string name="long_press_duration">Длительность удержания: %1$d мс</string>
+    <string name="long_press_description">Время, после которого удержание клавиши считается долгим. При меньшем значении срабатывает быстрее.</string>
+    <string name="setting_applied_immediately">Настройка применена</string>
     
     <!-- Auto Capitalize Section -->
-    <string name="auto_capitalize_title">Auto-Capitalize First Letter</string>
-    <string name="auto_capitalize_description">Automatically capitalizes the first letter when starting to type in an empty text field.</string>
+    <string name="auto_capitalize_title">Заглавная буква в начале текста</string>
+    <string name="auto_capitalize_description">Автоматически делать первую букву заглавной в пустом поле ввода.</string>
 
     <!-- Auto Capitalize After Period Section -->
-    <string name="auto_capitalize_after_period_title">Auto-Capitalize After Period</string>
-    <string name="auto_capitalize_after_period_description">Automatically capitalizes the next letter after typing a period followed by a space (end of sentence).</string>
+    <string name="auto_capitalize_after_period_title">Заглавная после точки</string>
+    <string name="auto_capitalize_after_period_description">Автоматически делать букву заглавной после точки и пробела.</string>
 
     <!-- Spell Checker Section -->
-    <string name="spell_check_title">Spell Checker</string>
-    <string name="spell_check_description">Use Android system spell checker to suggest corrections for misspelled words.</string>
+    <string name="spell_check_title">Проверка орфографии</string>
+    <string name="spell_check_description">Использовать системную проверку орфографии Android для предложений исправления.</string>
 
     <!-- Double Space to Period Section -->
-    <string name="double_space_to_period_title">Double Space to Period</string>
-    <string name="double_space_to_period_description">Double tap space to insert a period followed by a space and capitalize the next letter.</string>
+    <string name="double_space_to_period_title">Точка двойным пробелом</string>
+    <string name="double_space_to_period_description">Два быстрых нажатия пробела вставляют точку и пробел.</string>
 
     <!-- Clear Alt on Space Section -->
-    <string name="clear_alt_on_space_title">Clear Alt on Space</string>
-    <string name="clear_alt_on_space_description">Automatically disable Alt or Alt-Lock when pressing Space.</string>
+    <string name="clear_alt_on_space_title">Сброс Alt по пробелу</string>
+    <string name="clear_alt_on_space_description">Сбрасывать Alt после пробела. Alt + Пробел всегда переключает раскладку.</string>
     
     <!-- Swipe to Delete Section -->
-    <string name="swipe_to_delete_title">Enable Swipe to Delete</string>
+    <string name="swipe_to_delete_title">Удаление жестом</string>
     
     <!-- Auto Show Keyboard Section -->
-    <string name="auto_show_keyboard_title">Auto Show Keyboard</string>
+    <string name="auto_show_keyboard_title">Показывать нижнюю панель автоматически</string>
     
     <!-- Auto Focus Input Fields Section -->
-    <string name="auto_focus_input_fields_title">Auto-Focus Input Fields</string>
-    <string name="auto_focus_input_fields_description">Automatically focus on input fields when opening apps (requires Accessibility permission). Works with browsers, messaging apps, and more.</string>
-    <string name="accessibility_service_description">Automatically focuses on input fields when you open apps like browsers and messaging apps, so you can start typing immediately.</string>
+    <string name="auto_focus_input_fields_title">Автофокус на полях ввода</string>
+    <string name="auto_focus_input_fields_description">Автоматически переходить в поле ввода при запуске приложения. Требуется разрешение специальных возможностей.</string>
+    <string name="accessibility_service_description">Автоматически переводит фокус в поле ввода при открытии приложения.</string>
     
     <!-- Alt+Ctrl Speech Recognition Shortcut Section -->
-    <string name="alt_ctrl_speech_shortcut_title">Alt+Ctrl Speech Recognition</string>
-    <string name="alt_ctrl_speech_shortcut_description">Enable Alt+Ctrl keyboard shortcut to start speech recognition</string>
+    <string name="alt_ctrl_speech_shortcut_title">Голосовой ввод по Alt + Ctrl</string>
+    <string name="alt_ctrl_speech_shortcut_description">Включить голосовой ввод сочетанием Alt + Ctrl.</string>
     
     <!-- Info Section -->
-    <string name="info_title">Information</string>
-    <string name="info_description">Settings are automatically saved and immediately applied to the input method.</string>
+    <string name="info_title">Сведения</string>
+    <string name="info_description">Настройки сохраняются автоматически.</string>
     
     <!-- Main Activity -->
     <string name="keyboard_title">Клавиатура для Titan 2 / Elite / Pro</string>
     <string name="keyboard_subtitle">Переключение: Alt + Пробел</string>
-    <string name="settings_content_description">Settings</string>
+    <string name="settings_content_description">Настройки</string>
     
     <!-- Installation Section -->
-    <string name="installation_title">Installation</string>
-    <string name="installation_step1">1. Click the button below to open settings</string>
-    <string name="installation_step2">2. Enable \'TypeQ25 Russian Keyboard\'</string>
-    <string name="installation_step3">3. Come back here and test the keyboard</string>
-    <string name="open_keyboard_settings">Open Keyboard Settings</string>
+    <string name="installation_title">Установка</string>
+    <string name="installation_step1">1. Откройте системные настройки клавиатур.</string>
+    <string name="installation_step2">2. Включите «Клавиатура для Titan 2 / Elite / Pro».</string>
+    <string name="installation_step3">3. Вернитесь сюда и проверьте работу клавиатуры.</string>
+    <string name="open_keyboard_settings">Открыть настройки клавиатур</string>
     
     <!-- Main Activity - Enable/Select IME -->
-    <string name="enable_TypeQ25">Enable TypeQ25</string>
-    <string name="TypeQ25_not_enabled">TypeQ25 is not enabled</string>
-    <string name="choose_input_method">Choose input method</string>
-    <string name="TypeQ25_not_selected">TypeQ25 is not selected</string>
+    <string name="enable_TypeQ25">Включить клавиатуру</string>
+    <string name="TypeQ25_not_enabled">Клавиатура ещё не включена</string>
+    <string name="choose_input_method">Выбрать метод ввода</string>
+    <string name="TypeQ25_not_selected">Клавиатура ещё не выбрана</string>
     
     <!-- Test Section -->
-    <string name="test_keyboard_title">Keyboard Test</string>
-    <string name="test_keyboard_description">Connect a physical keyboard and test below:</string>
-    <string name="test_keyboard_normal">• Normal press: inserts the character</string>
-    <string name="test_keyboard_long_press">• Long press (500ms): inserts the Alt character</string>
-    <string name="test_field_label">Test field</string>
-    <string name="test_field_placeholder">Type here with the physical keyboard…</string>
+    <string name="test_keyboard_title">Проверка клавиатуры</string>
+    <string name="test_keyboard_description">Печатайте на физической клавиатуре в поле ниже.</string>
+    <string name="test_keyboard_normal">• Обычное нажатие вводит букву.</string>
+    <string name="test_keyboard_long_press">• Долгое нажатие вводит дополнительный символ.</string>
+    <string name="test_field_label">Поле для проверки</string>
+    <string name="test_field_placeholder">Введите текст физическими клавишами…</string>
     
     <!-- Last Event Section -->
-    <string name="last_keyboard_event_title">Last Keyboard Event</string>
-    <string name="no_event_yet">No event yet</string>
+    <string name="last_keyboard_event_title">Последняя нажатая клавиша</string>
+    <string name="no_event_yet">Нажатий ещё нет</string>
     
     <!-- Long Press Mappings Section -->
-    <string name="long_press_mappings_title">Long Press Mappings</string>
+    <string name="long_press_mappings_title">Дополнительные символы</string>
     <string name="long_press_mappings_line1">Q→0, W→1, E→2, R→3, T→(, Y→), U→-, I→_, O→\', P→:</string>
     <string name="long_press_mappings_line2">A→@, S→4, D→5, F→6, G→*, H→#, J→+, K→\", L→\'</string>
     <string name="long_press_mappings_line3">Z→!, X→7, C→8, V→9, B→., N→\', M→?</string>
     
     <!-- Buttons -->
-    <string name="settings_button">Settings</string>
-    <string name="change_keyboard_button">Change Keyboard</string>
+    <string name="settings_button">Настройки</string>
+    <string name="change_keyboard_button">Сменить клавиатуру</string>
     
     <!-- SYM Customization -->
-    <string name="sym_customization_title">Customize SYM Keyboard</string>
-    <string name="sym_customization_button">Customize SYM Keyboard</string>
-    <string name="sym_customization_description">Personalize emoji mappings for the SYM keyboard. Tap on any key to change its emoji.</string>
-    <string name="reset_to_default">Reset to Default</string>
-    <string name="select_emoji">Select Emoji</string>
-    <string name="close">Close</string>
+    <string name="sym_customization_title">Настройка клавиши SYM</string>
+    <string name="sym_customization_button">Настроить SYM</string>
+    <string name="sym_customization_description">Измените символы и эмодзи на клавишах SYM.</string>
+    <string name="reset_to_default">Восстановить значения</string>
+    <string name="select_emoji">Выбрать эмодзи</string>
+    <string name="close">Закрыть</string>
     
     <!-- Auto-Correction Section -->
-    <string name="auto_correct_title">Auto-Correction</string>
-    <string name="auto_correct_languages_title">Languages</string>
-    <string name="auto_correct_settings_title">Auto-Correction Languages</string>
-    <string name="auto_correct_settings_description">Select which languages to use for auto-correction. The system language is shown at the top.</string>
-    <string name="auto_correct_system_language">System language</string>
-    <string name="auto_correct_TypeQ25_description">Customizations valid for all languages</string>
-    <string name="auto_correct_other_languages">Other Languages</string>
-    <string name="auto_correct_custom_languages">Custom Languages</string>
-    <string name="auto_correct_at_least_one_language_required">At least one language required for operation</string>
-    <string name="auto_correct_edit">Edit</string>
-    <string name="auto_correct_edit_description">Tap on a correction to edit it, or use the + button to add a new one.</string>
-    <string name="auto_correct_add_correction">Add Correction</string>
-    <string name="auto_correct_edit_correction">Edit Correction</string>
-    <string name="auto_correct_original">Original</string>
-    <string name="auto_correct_corrected">Corrected</string>
-    <string name="auto_correct_delete">Delete</string>
-    <string name="auto_correct_save">Save</string>
-    <string name="auto_correct_cancel">Cancel</string>
-    <string name="auto_correct_no_corrections">No corrections available. Tap the + button to add one.</string>
-    <string name="auto_correct_add_language">Add New Language</string>
-    <string name="auto_correct_language_code">Language Code</string>
-    <string name="auto_correct_language_name">Language Name</string>
-    <string name="auto_correct_language_code_hint">Enter a code and name for your custom language (e.g., \"fr\" / \"French\", \"mydict\" / \"My Dictionary\")</string>
-    <string name="auto_correct_language_code_required">Language name is required</string>
-    <string name="auto_correct_language_already_exists">This language already exists</string>
+    <string name="auto_correct_title">Автоисправление</string>
+    <string name="auto_correct_languages_title">Языки</string>
+    <string name="auto_correct_settings_title">Языки автоисправления</string>
+    <string name="auto_correct_settings_description">Выберите языки для автозамены и подсказок.</string>
+    <string name="auto_correct_system_language">Язык системы</string>
+    <string name="auto_correct_TypeQ25_description">Общие исправления для всех языков</string>
+    <string name="auto_correct_other_languages">Другие языки</string>
+    <string name="auto_correct_custom_languages">Собственные словари</string>
+    <string name="auto_correct_at_least_one_language_required">Нужен хотя бы один язык</string>
+    <string name="auto_correct_edit">Изменить</string>
+    <string name="auto_correct_edit_description">Нажмите на исправление для редактирования или добавьте новое.</string>
+    <string name="auto_correct_add_correction">Добавить исправление</string>
+    <string name="auto_correct_edit_correction">Изменить исправление</string>
+    <string name="auto_correct_original">Исходный текст</string>
+    <string name="auto_correct_corrected">Замена</string>
+    <string name="auto_correct_delete">Удалить</string>
+    <string name="auto_correct_save">Сохранить</string>
+    <string name="auto_correct_cancel">Отмена</string>
+    <string name="auto_correct_no_corrections">Исправлений нет. Нажмите + для добавления.</string>
+    <string name="auto_correct_add_language">Добавить язык</string>
+    <string name="auto_correct_language_code">Код языка</string>
+    <string name="auto_correct_language_name">Название языка</string>
+    <string name="auto_correct_language_code_hint">Введите код и название собственного словаря.</string>
+    <string name="auto_correct_language_code_required">Укажите название языка</string>
+    <string name="auto_correct_language_already_exists">Этот язык уже существует</string>
     
     <!-- SYM Customization Screen -->
-    <string name="sym_customize_title">Customize SYM Keyboard</string>
-    <string name="sym_auto_close_title">Auto-Close SYM Layout</string>
-    <string name="sym_auto_close_description">Automatically close SYM layout after inserting a character, pressing Alt, or pressing Enter. Does not close with Control or Shift.</string>
-    <string name="sym_enable_emoji_page_title">Enable Emoji Page</string>
-    <string name="sym_enable_emoji_page_description">Show the emoji SYM layout when cycling.</string>
-    <string name="sym_enable_symbols_page_title">Enable Symbols Page</string>
-    <string name="sym_enable_symbols_page_description">Show the symbols SYM layout when cycling.</string>
-    <string name="sym_swap_pages_title">Swap SYM pages order</string>
-    <string name="sym_swap_pages_description">Choose which SYM page appears first when toggling.</string>
-    <string name="sym_order_emoji_first">Emoji first</string>
-    <string name="sym_order_symbols_first">Symbols first</string>
-    <string name="sym_instructions_title">Instructions</string>
-    <string name="sym_instructions_text">Tap on any key below to change its emoji. Changes are saved automatically.</string>
-    <string name="sym_reset_to_default">Reset to Default</string>
-    <string name="sym_reset_confirm_title">Reset to Default</string>
-    <string name="sym_reset_confirm_message">Are you sure you want to reset all SYM mappings to default? This action cannot be undone.</string>
-    <string name="sym_reset_confirm_button">Reset</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
+    <string name="sym_customize_title">Настройка клавиатуры SYM</string>
+    <string name="sym_auto_close_title">Автоматически закрывать SYM</string>
+    <string name="sym_auto_close_description">Закрывать панель SYM после ввода символа, Alt или Enter.</string>
+    <string name="sym_enable_emoji_page_title">Страница эмодзи</string>
+    <string name="sym_enable_emoji_page_description">Показывать эмодзи при переключении страниц SYM.</string>
+    <string name="sym_enable_symbols_page_title">Страница символов</string>
+    <string name="sym_enable_symbols_page_description">Показывать символы при переключении страниц SYM.</string>
+    <string name="sym_swap_pages_title">Порядок страниц SYM</string>
+    <string name="sym_swap_pages_description">Выберите первую страницу SYM.</string>
+    <string name="sym_order_emoji_first">Сначала эмодзи</string>
+    <string name="sym_order_symbols_first">Сначала символы</string>
+    <string name="sym_instructions_title">Инструкция</string>
+    <string name="sym_instructions_text">Нажмите на клавишу ниже, чтобы изменить символ. Изменения сохраняются автоматически.</string>
+    <string name="sym_reset_to_default">Восстановить значения</string>
+    <string name="sym_reset_confirm_title">Сбросить настройки SYM?</string>
+    <string name="sym_reset_confirm_message">Все назначенные символы SYM будут восстановлены. Отменить это действие нельзя.</string>
+    <string name="sym_reset_confirm_button">Сбросить</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
     
     <!-- Modifiers -->
     <string name="modifier_shift">SHIFT</string>
     <string name="modifier_ctrl">CTRL</string>
     
     <!-- Long Press Modifier Section -->
-    <string name="long_press_modifier_title">Long Press Modifier</string>
-    <string name="long_press_modifier_description">Choose whether long press simulates Alt+key or Shift+key</string>
+    <string name="long_press_modifier_title">Модификатор удержания</string>
+    <string name="long_press_modifier_description">Выберите действие при долгом нажатии: Alt или Shift.</string>
     <string name="long_press_modifier_alt">Alt</string>
     <string name="long_press_modifier_shift">Shift</string>
     
     <!-- Keyboard Layout Section -->
-    <string name="keyboard_layout_title">Keyboard Layout</string>
-    <string name="keyboard_layout_description">Select your keyboard layout. ALT, SYM and Ctrl mappings remain based on physical key position. Change mapping quickly with CTRL+SPACE.</string>
-    <string name="keyboard_layout_no_conversion">Standard</string>
-    <string name="keyboard_layout_no_conversion_description">Standard QWERTY layout (no conversion)</string>
-    <string name="keyboard_layout_conversions_title">Layout Conversions</string>
-    <string name="keyboard_layout_conversions_description">Convert letter keys to match the selected layout</string>
-    <string name="keyboard_layout_viewer_title">Keyboard map</string>
-    <string name="keyboard_layout_editor_title">Edit Keyboard Layout</string>
-    <string name="keyboard_layout_viewer_subtitle">Layout: %1$s</string>
-    <string name="keyboard_layout_viewer_unavailable">Unable to load this layout mapping.</string>
-    <string name="keyboard_layout_viewer_empty">No key mappings found for this layout.</string>
-    <string name="keyboard_layout_viewer_multitap_on">multitap</string>
-    <string name="keyboard_layout_viewer_multitap_off">single</string>
-    <string name="keyboard_layout_viewer_open">View mapping</string>
-    <string name="keyboard_layout_edit">Edit layout</string>
-    <string name="keyboard_layout_edit_key_title">Edit Key: %1$s</string>
-    <string name="keyboard_layout_lowercase">Lowercase character</string>
-    <string name="keyboard_layout_uppercase">Uppercase character</string>
-    <string name="keyboard_layout_edit_hint">Enter the character(s) this key should produce</string>
-    <string name="keyboard_layout_save">Save changes</string>
-    <string name="keyboard_layout_saved">Layout saved successfully</string>
-    <string name="keyboard_layout_save_failed">Failed to save layout</string>
-    <string name="keyboard_layout_settings_button">Keyboard Layout Settings</string>
+    <string name="keyboard_layout_title">Раскладки клавиатуры</string>
+    <string name="keyboard_layout_description">Три раскладки: английская, русский транслит и русский Ростест. Переключение: Alt + Пробел.</string>
+    <string name="keyboard_layout_no_conversion">Английский</string>
+    <string name="keyboard_layout_no_conversion_description">Английская раскладка QWERTY</string>
+    <string name="keyboard_layout_conversions_title">Русские раскладки</string>
+    <string name="keyboard_layout_conversions_description">Русский транслит и русский Ростест</string>
+    <string name="keyboard_layout_viewer_title">Схема клавиатуры</string>
+    <string name="keyboard_layout_editor_title">Редактор раскладки</string>
+    <string name="keyboard_layout_viewer_subtitle">Раскладка: %1$s</string>
+    <string name="keyboard_layout_viewer_unavailable">Не удалось загрузить раскладку.</string>
+    <string name="keyboard_layout_viewer_empty">В раскладке нет назначенных клавиш.</string>
+    <string name="keyboard_layout_viewer_multitap_on">несколько букв</string>
+    <string name="keyboard_layout_viewer_multitap_off">одна буква</string>
+    <string name="keyboard_layout_viewer_open">Просмотреть раскладку</string>
+    <string name="keyboard_layout_edit">Изменить раскладку</string>
+    <string name="keyboard_layout_edit_key_title">Клавиша: %1$s</string>
+    <string name="keyboard_layout_lowercase">Строчная буква</string>
+    <string name="keyboard_layout_uppercase">Заглавная буква</string>
+    <string name="keyboard_layout_edit_hint">Введите букву или символ для клавиши</string>
+    <string name="keyboard_layout_save">Сохранить изменения</string>
+    <string name="keyboard_layout_saved">Раскладка сохранена</string>
+    <string name="keyboard_layout_save_failed">Не удалось сохранить раскладку</string>
+    <string name="keyboard_layout_settings_button">Настройки раскладок</string>
     
     <!-- Layout Editor -->
-    <string name="edit_layout">Edit layout</string>
-    <string name="save_layout">Save layout</string>
-    <string name="delete_layout">Delete custom layout</string>
-    <string name="delete_layout_title">Delete Custom Layout?</string>
-    <string name="delete_layout_message">This will delete the custom layout \"%1$s\". This action cannot be undone.</string>
-    <string name="edit_key_title">Edit Key: %1$s</string>
-    <string name="base_characters">Base Characters</string>
-    <string name="lowercase">Lowercase</string>
-    <string name="uppercase">Uppercase</string>
-    <string name="multi_tap_variations">Multi-tap Variations</string>
-    <string name="multi_tap_hint">Add character variations that will cycle when the key is pressed multiple times</string>
-    <string name="add_tap_variation">Add variation</string>
-    <string name="tap_number">Tap %1$d</string>
+    <string name="edit_layout">Изменить раскладку</string>
+    <string name="save_layout">Сохранить раскладку</string>
+    <string name="delete_layout">Удалить свою раскладку</string>
+    <string name="delete_layout_title">Удалить раскладку?</string>
+    <string name="delete_layout_message">Удалить раскладку «%1$s» без возможности восстановления?</string>
+    <string name="edit_key_title">Клавиша: %1$s</string>
+    <string name="base_characters">Основные символы</string>
+    <string name="lowercase">Строчные</string>
+    <string name="uppercase">Заглавные</string>
+    <string name="multi_tap_variations">Дополнительные буквы</string>
+    <string name="multi_tap_hint">Буквы, которые вводятся последовательными нажатиями клавиши</string>
+    <string name="add_tap_variation">Добавить букву</string>
+    <string name="tap_number">Нажатие %1$d</string>
     
     <!-- About Section -->
     <string name="about_github">GitHub</string>
-    <string name="about_build_info">Build</string>
-    <string name="about_title">About</string>
-    <string name="about_app_description">App information and version</string>
-    <string name="about_github_description">View source code and contribute</string>
+    <string name="about_build_info">Сборка</string>
+    <string name="about_title">О приложении</string>
+    <string name="about_app_description">Версия и сведения о приложении</string>
+    <string name="about_github_description">Исходный код приложения</string>
     
     <!-- Launcher Shortcuts Section -->
-    <string name="launcher_shortcuts_title">Launcher Shortcuts</string>
-    <string name="launcher_shortcuts_experimental">Experimental</string>
-    <string name="launcher_shortcuts_description">Enable keyboard shortcuts in the launcher</string>
-    <string name="launcher_shortcuts_configure">Configure Shortcuts</string>
-    <string name="launcher_shortcuts_configure_description">Assign keys to open apps in the launcher</string>
+    <string name="launcher_shortcuts_title">Быстрый запуск</string>
+    <string name="launcher_shortcuts_experimental">Экспериментальная функция</string>
+    <string name="launcher_shortcuts_description">Горячие клавиши для открытия приложений</string>
+    <string name="launcher_shortcuts_configure">Настроить сочетания</string>
+    <string name="launcher_shortcuts_configure_description">Назначить клавиши для запуска приложений</string>
     
     <!-- Launcher Shortcuts Screen -->
-    <string name="launcher_shortcuts_screen_title">Launcher Shortcuts</string>
-    <string name="launcher_shortcuts_screen_assign_title">Assign shortcuts to apps</string>
-    <string name="launcher_shortcuts_screen_assign_description">When you are in the launcher and not in a text field, you can press a key to open an assigned app.</string>
-    <string name="launcher_shortcuts_not_assigned">Not assigned</string>
-    <string name="launcher_shortcuts_remove">Remove</string>
-    <string name="launcher_shortcuts_app_name_unavailable">App (name unavailable)</string>
-    <string name="launcher_shortcuts_shortcut_type">Shortcut: %1$s</string>
-    <string name="launcher_shortcuts_shortcut_unknown">unknown</string>
-    <string name="launcher_shortcuts_action_type">Action: %1$s</string>
+    <string name="launcher_shortcuts_screen_title">Быстрый запуск</string>
+    <string name="launcher_shortcuts_screen_assign_title">Назначить приложения на клавиши</string>
+    <string name="launcher_shortcuts_screen_assign_description">На главном экране нажмите назначенную клавишу для открытия приложения.</string>
+    <string name="launcher_shortcuts_not_assigned">Не назначено</string>
+    <string name="launcher_shortcuts_remove">Убрать</string>
+    <string name="launcher_shortcuts_app_name_unavailable">Приложение без названия</string>
+    <string name="launcher_shortcuts_shortcut_type">Комбинация: %1$s</string>
+    <string name="launcher_shortcuts_shortcut_unknown">неизвестно</string>
+    <string name="launcher_shortcuts_action_type">Действие: %1$s</string>
     
     <!-- Launcher Shortcut Assignment Activity -->
-    <string name="launcher_shortcut_assignment_title">Assign app to key</string>
-    <string name="launcher_shortcut_assignment_key">Key %1$s</string>
-    <string name="launcher_shortcut_assignment_search_placeholder">Search apps...</string>
-    <string name="launcher_shortcut_assignment_search_description">Search</string>
-    <string name="launcher_shortcut_assignment_close">Close</string>
-    <string name="launcher_shortcut_assignment_no_apps">No apps found</string>
-    <string name="launcher_shortcut_assignment_no_results">No results for \"%1$s\"</string>
-    <string name="launcher_shortcut_assignment_key_name">Key %1$d</string>
+    <string name="launcher_shortcut_assignment_title">Назначить приложение</string>
+    <string name="launcher_shortcut_assignment_key">Клавиша %1$s</string>
+    <string name="launcher_shortcut_assignment_search_placeholder">Поиск приложений…</string>
+    <string name="launcher_shortcut_assignment_search_description">Поиск</string>
+    <string name="launcher_shortcut_assignment_close">Закрыть</string>
+    <string name="launcher_shortcut_assignment_no_apps">Приложения не найдены</string>
+    <string name="launcher_shortcut_assignment_no_results">Нет результатов для «%1$s»</string>
+    <string name="launcher_shortcut_assignment_key_name">Клавиша %1$d</string>
     
     <!-- Notification Helper -->
-    <string name="notification_nav_mode_channel_name">TypeQ25 Nav Mode</string>
-    <string name="notification_nav_mode_channel_description">Notifications for TypeQ25 nav mode</string>
-    <string name="notification_nav_mode_activated_title">Nav Mode Activated</string>
-    <string name="notification_nav_mode_activated_text">Nav mode activated</string>
+    <string name="notification_nav_mode_channel_name">Режим навигации</string>
+    <string name="notification_nav_mode_channel_description">Уведомления о режиме навигации</string>
+    <string name="notification_nav_mode_activated_title">Режим навигации включён</string>
+    <string name="notification_nav_mode_activated_text">Навигация активна</string>
     
     <!-- Speech Recognition -->
-    <string name="speech_recognition_prompt">Speak now...</string>
-    <string name="speech_app_chooser_title">Choose Speech Recognition App</string>
-    <string name="speech_app_chooser_no_apps">No speech recognition apps found on your device</string>
-    <string name="speech_app_chooser_info_title">Select Your Preferred App</string>
-    <string name="speech_app_chooser_info_description">Choose which app to use for speech-to-text. You can change this later in Text Input settings.</string>
-    <string name="speech_app_selection_title">Speech Recognition App</string>
-    <string name="speech_app_selection_current">Current: %1$s</string>
-    <string name="speech_app_selection_not_set">Not set (will prompt on first use)</string>
+    <string name="speech_recognition_prompt">Говорите…</string>
+    <string name="speech_app_chooser_title">Выбор приложения голосового ввода</string>
+    <string name="speech_app_chooser_no_apps">Приложения голосового ввода не найдены</string>
+    <string name="speech_app_chooser_info_title">Выберите приложение</string>
+    <string name="speech_app_chooser_info_description">Выберите приложение распознавания речи. Позже его можно сменить в настройках ввода.</string>
+    <string name="speech_app_selection_title">Приложение голосового ввода</string>
+    <string name="speech_app_selection_current">Выбрано: %1$s</string>
+    <string name="speech_app_selection_not_set">Не выбрано (запрос при первом использовании)</string>
     
     <!-- Auto Correct Edit Screen -->
-    <string name="auto_correct_search_placeholder">Search corrections...</string>
-    <string name="auto_correct_search_description">Search</string>
-    <string name="auto_correct_clear_search">Clear search</string>
-    <string name="auto_correct_no_corrections_found">No corrections found</string>
+    <string name="auto_correct_search_placeholder">Поиск исправлений…</string>
+    <string name="auto_correct_search_description">Поиск</string>
+    <string name="auto_correct_clear_search">Очистить поиск</string>
+    <string name="auto_correct_no_corrections_found">Исправления не найдены</string>
     
     <!-- Nav Mode Settings -->
-    <string name="nav_mode_title">Nav Mode</string>
-    <string name="nav_mode_enable_title">Enable Nav Mode</string>
-    <string name="nav_mode_enable_description">Double-tap Ctrl to activate navigation mode</string>
-    <string name="nav_mode_key_mappings">Key Mappings</string>
-    <string name="nav_mode_revert_to_default">Revert to Default</string>
-    <string name="nav_mode_note">Note: Modifying nav mode keys also affects Ctrl+key combinations in text fields.</string>
-    <string name="nav_mode_configure_key">Configure %1$s</string>
-    <string name="nav_mode_type">Type</string>
-    <string name="nav_mode_keycode">Keycode</string>
-    <string name="nav_mode_action">Action</string>
-    <string name="nav_mode_none">None</string>
-    <string name="nav_mode_use_default">Use Default: %1$s</string>
-    <string name="nav_mode_save">Save</string>
-    <string name="nav_mode_cancel">Cancel</string>
-    <string name="nav_mode_default">default</string>
+    <string name="nav_mode_title">Режим навигации</string>
+    <string name="nav_mode_enable_title">Включить навигацию</string>
+    <string name="nav_mode_enable_description">Дважды нажмите Ctrl, чтобы включить режим навигации.</string>
+    <string name="nav_mode_key_mappings">Назначения клавиш</string>
+    <string name="nav_mode_revert_to_default">Восстановить значения</string>
+    <string name="nav_mode_note">Изменения клавиш навигации влияют также на Ctrl в текстовых полях.</string>
+    <string name="nav_mode_configure_key">Настроить %1$s</string>
+    <string name="nav_mode_type">Тип</string>
+    <string name="nav_mode_keycode">Код клавиши</string>
+    <string name="nav_mode_action">Действие</string>
+    <string name="nav_mode_none">Нет</string>
+    <string name="nav_mode_use_default">По умолчанию: %1$s</string>
+    <string name="nav_mode_save">Сохранить</string>
+    <string name="nav_mode_cancel">Отмена</string>
+    <string name="nav_mode_default">по умолчанию</string>
     
     <!-- Unicode Character Picker -->
-    <string name="unicode_picker_title_for_letter">Select character for %1$s</string>
-    <string name="unicode_picker_title">Select unicode character</string>
-    <string name="unicode_picker_close">Close</string>
-    <string name="unicode_category_punctuation">Punctuation</string>
-    <string name="unicode_category_math">Mathematical Symbols</string>
-    <string name="unicode_category_currency">Currencies</string>
-    <string name="unicode_category_technical">Technical Symbols</string>
-    <string name="unicode_category_arrows">Arrows</string>
-    <string name="unicode_category_misc">Miscellaneous</string>
-    <string name="unicode_category_variations">Variations</string>
+    <string name="unicode_picker_title_for_letter">Выберите символ для %1$s</string>
+    <string name="unicode_picker_title">Выберите символ Unicode</string>
+    <string name="unicode_picker_close">Закрыть</string>
+    <string name="unicode_category_punctuation">Знаки препинания</string>
+    <string name="unicode_category_math">Математические символы</string>
+    <string name="unicode_category_currency">Валюты</string>
+    <string name="unicode_category_technical">Технические символы</string>
+    <string name="unicode_category_arrows">Стрелки</string>
+    <string name="unicode_category_misc">Прочее</string>
+    <string name="unicode_category_variations">Варианты</string>
     
     <!-- Trackpad Debug Screen -->
-    <string name="trackpad_debug_title">Trackpad Debug</string>
-    <string name="trackpad_debug_motion_events_status">Motion Events Status</string>
-    <string name="trackpad_debug_intercepting_events">Intercepting events ✓ (%1$d events received)</string>
-    <string name="trackpad_debug_waiting_events">Waiting for events... (Try moving your finger on the keyboard)</string>
-    <string name="trackpad_debug_test_field_title">Test Text Field</string>
-    <string name="trackpad_debug_test_field_description">Focus this field and try using the trackpad on your keyboard</string>
-    <string name="trackpad_debug_test_field_placeholder">Type here or use trackpad gestures...</string>
-    <string name="trackpad_debug_last_event_title">Last Motion Event</string>
-    <string name="trackpad_debug_action">Action:</string>
-    <string name="trackpad_debug_source">Source:</string>
-    <string name="trackpad_debug_device">Device:</string>
-    <string name="trackpad_debug_device_id">Device ID: %1$d</string>
-    <string name="trackpad_debug_position">Position:</string>
-    <string name="trackpad_debug_scroll">Scroll:</string>
-    <string name="trackpad_debug_pressure">Pressure:</string>
-    <string name="trackpad_debug_size">Size:</string>
-    <string name="trackpad_debug_button_state">Button State:</string>
-    <string name="trackpad_debug_timestamp">Timestamp: %1$d</string>
-    <string name="trackpad_debug_no_events">No motion events detected yet</string>
-    <string name="trackpad_debug_no_events_description">Try moving your finger on the touch-sensitive keyboard</string>
+    <string name="trackpad_debug_title">Диагностика сенсорной клавиатуры</string>
+    <string name="trackpad_debug_motion_events_status">События движения</string>
+    <string name="trackpad_debug_intercepting_events">Получение событий ✓ (%1$d)</string>
+    <string name="trackpad_debug_waiting_events">Ожидание движений… Проведите пальцем по клавиатуре.</string>
+    <string name="trackpad_debug_test_field_title">Проверка ввода</string>
+    <string name="trackpad_debug_test_field_description">Выберите поле и попробуйте управлять курсором.</string>
+    <string name="trackpad_debug_test_field_placeholder">Введите текст или используйте сенсорные жесты…</string>
+    <string name="trackpad_debug_last_event_title">Последнее движение</string>
+    <string name="trackpad_debug_action">Действие:</string>
+    <string name="trackpad_debug_source">Источник:</string>
+    <string name="trackpad_debug_device">Устройство:</string>
+    <string name="trackpad_debug_device_id">Код устройства: %1$d</string>
+    <string name="trackpad_debug_position">Положение:</string>
+    <string name="trackpad_debug_scroll">Прокрутка:</string>
+    <string name="trackpad_debug_pressure">Нажим:</string>
+    <string name="trackpad_debug_size">Размер:</string>
+    <string name="trackpad_debug_button_state">Состояние кнопок:</string>
+    <string name="trackpad_debug_timestamp">Время: %1$d</string>
+    <string name="trackpad_debug_no_events">Движений пока нет</string>
+    <string name="trackpad_debug_no_events_description">Проведите пальцем по физической клавиатуре.</string>
     
     <!-- SYM Customization Screen -->
-    <string name="sym_tab_emoji">Emoji</string>
-    <string name="sym_tab_characters">Characters</string>
+    <string name="sym_tab_emoji">Эмодзи</string>
+    <string name="sym_tab_characters">Символы</string>
     
     <!-- App Picker Dialog -->
-    <string name="app_picker_title">Select an app</string>
-    <string name="app_picker_cancel">Cancel</string>
-    <string name="app_picker_search_placeholder">Search apps...</string>
+    <string name="app_picker_title">Выбрать приложение</string>
+    <string name="app_picker_cancel">Отмена</string>
+    <string name="app_picker_search_placeholder">Поиск приложений…</string>
     
     <!-- Settings Screen -->
-    <string name="settings_nav_mode_configure">Configure navigation mode key mappings</string>
-    <string name="settings_trackpad_debug_title">Trackpad Debug</string>
-    <string name="settings_trackpad_debug_description">Test trackpad/touch-sensitive keyboard events</string>
-    <string name="settings_update_section_title">Updates</string>
-    <string name="settings_update_section_description">Check the latest release on GitHub.</string>
-    <string name="settings_update_button">Check for updates</string>
-    <string name="settings_update_checking">Checking for updates…</string>
-    <string name="settings_update_up_to_date">App is up to date.</string>
-    <string name="settings_update_check_failed">Unable to reach GitHub.</string>
+    <string name="settings_nav_mode_configure">Настроить клавиши навигации</string>
+    <string name="settings_trackpad_debug_title">Диагностика сенсорной клавиатуры</string>
+    <string name="settings_trackpad_debug_description">Проверить сенсорную поверхность клавиатуры</string>
+    <string name="settings_update_section_title">Обновления</string>
+    <string name="settings_update_section_description">Проверить последнюю версию на GitHub.</string>
+    <string name="settings_update_button">Проверить обновления</string>
+    <string name="settings_update_checking">Проверка…</string>
+    <string name="settings_update_up_to_date">Установлена последняя версия.</string>
+    <string name="settings_update_check_failed">Не удалось подключиться к GitHub.</string>
     
     <!-- Auto Correct Settings -->
-    <string name="auto_correct_TypeQ25_name">TypeQ25</string>
+    <string name="auto_correct_TypeQ25_name">Общие исправления</string>
     
     <!-- Settings Categories -->
-    <string name="settings_category_keyboard_timing">Keyboard &amp; Timing</string>
-    <string name="settings_category_text_input">Text Input</string>
-    <string name="settings_category_auto_correction">Auto-correction</string>
-    <string name="settings_category_customization">Customization</string>
-    <string name="settings_category_advanced">Advanced</string>
+    <string name="settings_category_keyboard_timing">Клавиатура и нажатия</string>
+    <string name="settings_category_text_input">Ввод текста</string>
+    <string name="settings_category_auto_correction">Автоисправление и подсказки</string>
+    <string name="settings_category_customization">Настройка клавиатуры</string>
+    <string name="settings_category_advanced">Дополнительно</string>
     
     <!-- Keyboard Layout Settings -->
-    <string name="layout_save_content_description">Save layout</string>
-    <string name="layout_import_content_description">Import layout</string>
-    <string name="layout_imported_successfully">Layout imported successfully</string>
-    <string name="layout_import_failed">Failed to import layout</string>
-    <string name="layout_invalid_file">Invalid layout file</string>
-    <string name="layout_import_error">Error importing layout: %1$s</string>
-    <string name="layout_save_canceled">Save canceled</string>
-    <string name="layout_saved_successfully">Layout saved successfully</string>
-    <string name="layout_save_error">Error saving layout: %1$s</string>
-    <string name="layout_imported_name">Imported Layout</string>
-    <string name="layout_imported_description">Imported from file</string>
+    <string name="layout_save_content_description">Сохранить раскладку</string>
+    <string name="layout_import_content_description">Импортировать раскладку</string>
+    <string name="layout_imported_successfully">Раскладка импортирована</string>
+    <string name="layout_import_failed">Не удалось импортировать раскладку</string>
+    <string name="layout_invalid_file">Неправильный файл раскладки</string>
+    <string name="layout_import_error">Ошибка импорта: %1$s</string>
+    <string name="layout_save_canceled">Сохранение отменено</string>
+    <string name="layout_saved_successfully">Раскладка сохранена</string>
+    <string name="layout_save_error">Ошибка сохранения: %1$s</string>
+    <string name="layout_imported_name">Импортированная раскладка</string>
+    <string name="layout_imported_description">Импортировано из файла</string>
     
     <!-- Main Activity Event Display -->
     <string name="modifier_alt">ALT</string>
-    <string name="event_unicode_label">Unicode: </string>
-    <string name="event_output_label">Output: </string>
-    <string name="event_not_available">N/A</string>
+    <string name="event_unicode_label">Unicode:</string>
+    <string name="event_output_label">Результат:</string>
+    <string name="event_not_available">Нет</string>
     
     <!-- Nav Mode Key Labels -->
-    <string name="nav_mode_action_copy">Copy</string>
-    <string name="nav_mode_action_paste">Paste</string>
-    <string name="nav_mode_action_cut">Cut</string>
-    <string name="nav_mode_action_undo">Undo</string>
-    <string name="nav_mode_action_select_all">SelAll</string>
-    <string name="nav_mode_action_expand_selection_left">←Sel</string>
-    <string name="nav_mode_action_expand_selection_right">→Sel</string>
+    <string name="nav_mode_action_copy">Копировать</string>
+    <string name="nav_mode_action_paste">Вставить</string>
+    <string name="nav_mode_action_cut">Вырезать</string>
+    <string name="nav_mode_action_undo">Отменить</string>
+    <string name="nav_mode_action_select_all">Выделить всё</string>
+    <string name="nav_mode_action_expand_selection_left">←Выделить</string>
+    <string name="nav_mode_action_expand_selection_right">Выделить→</string>
     <string name="nav_mode_keycode_up">↑</string>
     <string name="nav_mode_keycode_down">↓</string>
     <string name="nav_mode_keycode_left">←</string>
     <string name="nav_mode_keycode_right">→</string>
     <string name="nav_mode_keycode_center">○</string>
-    <string name="nav_mode_keycode_page_up">PgUp</string>
-    <string name="nav_mode_keycode_page_down">PgDn</string>
+    <string name="nav_mode_keycode_page_up">Вверх</string>
+    <string name="nav_mode_keycode_page_down">Вниз</string>
     <string name="nav_mode_keycode_escape">Esc</string>
     <string name="nav_mode_keycode_tab">Tab</string>
     <string name="nav_mode_keycode_forward_delete">Del</string>
     <string name="nav_mode_key_unknown">?</string>
     
     <!-- Speaker Toggle -->
-    <string name="speaker_toggle_on">Speaker ON</string>
-    <string name="speaker_toggle_off">Speaker OFF</string>
-    <string name="speaker_toggle_not_in_call">Not in a call</string>
+    <string name="speaker_toggle_on">Громкая связь включена</string>
+    <string name="speaker_toggle_off">Громкая связь выключена</string>
+    <string name="speaker_toggle_not_in_call">Нет активного звонка</string>
     
     <!-- Power Shortcuts -->
-    <string name="power_shortcuts_title">Power Shortcuts</string>
-    <string name="power_shortcuts_description">Enable quick access shortcuts for system functions</string>
-    <string name="power_shortcuts_press_key">Press a key to open the app</string>
+    <string name="power_shortcuts_title">Быстрые действия</string>
+    <string name="power_shortcuts_description">Сочетания для функций системы</string>
+    <string name="power_shortcuts_press_key">Нажмите клавишу для запуска приложения</string>
     
     <!-- Emoji Picker -->
-    <string name="emoji_picker_title">Select Emoji</string>
-    <string name="emoji_picker_title_for_letter">Select Emoji for %s</string>
-    <string name="emoji_picker_close">Close</string>
-    <string name="emoji_category_smileys">Smileys</string>
-    <string name="emoji_category_animals">Animals</string>
-    <string name="emoji_category_food">Food</string>
-    <string name="emoji_category_travel">Travel</string>
-    <string name="emoji_category_activities">Activities</string>
-    <string name="emoji_category_objects">Objects</string>
-    <string name="emoji_category_symbols">Symbols</string>
-    <string name="emoji_category_flags">Flags</string>
+    <string name="emoji_picker_title">Выбор эмодзи</string>
+    <string name="emoji_picker_title_for_letter">Выбор эмодзи для %s</string>
+    <string name="emoji_picker_close">Закрыть</string>
+    <string name="emoji_category_smileys">Смайлы</string>
+    <string name="emoji_category_animals">Животные</string>
+    <string name="emoji_category_food">Еда</string>
+    <string name="emoji_category_travel">Путешествия</string>
+    <string name="emoji_category_activities">Занятия</string>
+    <string name="emoji_category_objects">Предметы</string>
+    <string name="emoji_category_symbols">Символы</string>
+    <string name="emoji_category_flags">Флаги</string>
     
     <!-- Launcher Shortcut Assignment -->
-    <string name="launcher_shortcut_assignment_current">Current: %s</string>
-    <string name="launcher_shortcut_assignment_or_choose_new">or choose a new app</string>
+    <string name="launcher_shortcut_assignment_current">Выбрано: %s</string>
+    <string name="launcher_shortcut_assignment_or_choose_new">или выберите другое приложение</string>
     
     <!-- Tutorial -->
-    <string name="settings_tutorial_title">Tutorial</string>
-    <string name="settings_tutorial_description">Learn how to use TypeQ25 features</string>
-    <string name="settings_currency_key_title">Currency Key Settings</string>
-    <string name="settings_currency_key_description">Configure currency key behavior</string>
+    <string name="settings_tutorial_title">Обучение</string>
+    <string name="settings_tutorial_description">Краткое руководство по Titan 2 / Elite / Pro</string>
+    <string name="settings_currency_key_title">Настройка специальной клавиши</string>
+    <string name="settings_currency_key_description">Действие дополнительной клавиши</string>
 </resources>
 
