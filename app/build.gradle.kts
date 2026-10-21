@@ -60,8 +60,8 @@ android {
         applicationId = "it.srik.titan2rostest"
         minSdk = 29
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
@@ -90,10 +90,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("../TypeQ25-release-key.jks")
-            storePassword = "typeq25pass"
-            keyAlias = "typeq25-key"
-            keyPassword = "typeq25pass"
+            storeFile = file(System.getenv("TITAN_RELEASE_KEYSTORE") ?: "build/titan-release.jks")
+            storePassword = System.getenv("TITAN_RELEASE_STORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("TITAN_RELEASE_KEY_ALIAS") ?: "titan2"
+            keyPassword = System.getenv("TITAN_RELEASE_KEY_PASSWORD") ?: ""
         }
     }
 
@@ -144,7 +144,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    // HTTP client removed: offline only.
     // Accompanist Pager for tutorial screens
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
