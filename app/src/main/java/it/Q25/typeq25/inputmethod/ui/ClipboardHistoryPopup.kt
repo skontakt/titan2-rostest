@@ -303,17 +303,17 @@ private fun ClipboardHistoryContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Clipboard History (${history.size})",
+                text = "История буфера (${history.size})",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 TextButton(onClick = onClear) {
-                    Text("Clear All", fontSize = 12.sp)
+                    Text("Очистить всё", fontSize = 12.sp)
                 }
                 TextButton(onClick = onClose) {
-                    Text("Close", fontSize = 12.sp)
+                    Text("Закрыть", fontSize = 12.sp)
                 }
             }
         }
@@ -322,7 +322,7 @@ private fun ClipboardHistoryContent(
         
         // Help text
         Text(
-            text = "↑↓ Navigate • Enter: Paste • Del: Remove • Esc: Close • 1-9: Quick select",
+            text = "↑↓ — выбор • Enter — вставить • Del — удалить • Esc — закрыть • 1–9 — быстрый выбор",
             fontSize = 11.sp,
             color = textColor.copy(alpha = 0.6f),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -423,7 +423,7 @@ private fun ClipboardItemRow(
         
         // Character count
         Text(
-            text = "${item.text.length} chars",
+            text = "${item.text.length} символов",
             fontSize = 10.sp,
             color = textColor.copy(alpha = 0.4f),
             modifier = Modifier.padding(top = 4.dp)
