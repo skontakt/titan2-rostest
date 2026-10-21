@@ -26,3 +26,12 @@
 
 # Keep BuildConfig for runtime checks if needed
 -keep class it.srik.TypeQ25.BuildConfig { *; }
+# Strip text, keycode, and clipboard diagnostic logs in the release binary.
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+    public static int w(...);
+    public static int e(...);
+    public static int wtf(...);
+}
