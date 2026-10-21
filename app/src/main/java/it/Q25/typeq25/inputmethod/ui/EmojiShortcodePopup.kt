@@ -278,7 +278,7 @@ private fun EmojiSuggestionContent(
     ) {
         // Header
         Text(
-            text = "Shortcuts (${suggestions.size})",
+            text = "Короткие коды (${suggestions.size})",
             fontSize = 11.sp,
             fontWeight = FontWeight.Medium,
             color = textColor.copy(alpha = 0.7f),
@@ -307,7 +307,7 @@ private fun EmojiSuggestionContent(
         
         // Footer hint
         Text(
-            text = "Enter/Tab: Select • ↑↓: Navigate • Alt+1-9,0: Quick • Esc/Bksp: Close",
+            text = "Enter/Tab — выбрать • ↑↓ — перемещение • Alt+1–9,0 — быстрый выбор • Esc/Backspace — закрыть",
             fontSize = 10.sp,
             color = textColor.copy(alpha = 0.5f),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
