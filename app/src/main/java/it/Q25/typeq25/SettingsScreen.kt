@@ -434,7 +434,7 @@ fun SettingsScreen(
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Device",
+                                text = "Устройство",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Medium,
                                 maxLines = 1
@@ -617,7 +617,7 @@ fun SettingsScreen(
                         .fillMaxWidth()
                         .height(64.dp)
                         .clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/srik/TypeQ25/"))
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/skontakt/titan2-rostest"))
                             context.startActivity(intent)
                         }
                 ) {
@@ -642,7 +642,7 @@ fun SettingsScreen(
                                 maxLines = 1
                             )
                             Text(
-                                text = "https://github.com/srik/TypeQ25/",
+                                text = "https://github.com/skontakt/titan2-rostest",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1
@@ -689,7 +689,7 @@ fun SettingsScreen(
                                 // Update check disabled
                                 Toast.makeText(
                                     context,
-                                    "Update checking is currently disabled",
+                                    "Автоматическая проверка обновлений отключена",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 /*
@@ -912,7 +912,7 @@ fun AboutScreen(
                     .fillMaxWidth()
                     .height(64.dp)
                     .clickable {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/srik/TypeQ25/"))
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/skontakt/titan2-rostest"))
                         context.startActivity(intent)
                     }
             ) {
