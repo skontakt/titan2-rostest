@@ -295,12 +295,12 @@ fun KeyboardLayoutSettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Arabic-Indic Numerals",
+                                    text = "Арабские цифры",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
-                                    text = "Use ٠-٩ instead of 0-9 (Western numerals are always used in password fields)",
+                                    text = "Заменить цифры 0–9 на ٠–٩",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -341,12 +341,12 @@ fun KeyboardLayoutSettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Arabic Punctuation",
+                                    text = "Арабские знаки препинания",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
-                                    text = "Use ؟، instead of ?, (Western punctuation is always used in password fields)",
+                                    text = "Использовать арабские знаки препинания",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -507,7 +507,7 @@ fun KeyboardLayoutSettingsScreen(
                                             modifier = Modifier.height(18.dp)
                                         ) {
                                             Text(
-                                                text = "multitap",
+                                                text = "несколько букв",
                                                 style = MaterialTheme.typography.labelSmall,
                                                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                                                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
