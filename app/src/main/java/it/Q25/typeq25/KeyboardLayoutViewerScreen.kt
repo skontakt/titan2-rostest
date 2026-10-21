@@ -430,7 +430,7 @@ private fun KeyEditDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Enable Multi-Tap",
+                        text = "Ввод нескольких букв",
                         style = MaterialTheme.typography.bodyLarge
                     )
                     androidx.compose.material3.Switch(
@@ -442,15 +442,15 @@ private fun KeyEditDialog(
                 // Multi-tap configuration (shown when enabled)
                 if (multiTapEnabled) {
                     Text(
-                        text = "Multi-Tap Characters (up to 4)",
+                        text = "Дополнительные буквы (до 4)",
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(top = 8.dp)
                     )
                     
-                    // Tap 1
+                    // Первое нажатие
                     Text(
-                        text = "Tap 1",
+                        text = "Первое нажатие",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -461,22 +461,22 @@ private fun KeyEditDialog(
                         OutlinedTextField(
                             value = tap1Lower,
                             onValueChange = { tap1Lower = it },
-                            label = { Text("Lowercase") },
+                            label = { Text("Строчная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = tap1Upper,
                             onValueChange = { tap1Upper = it },
-                            label = { Text("Uppercase") },
+                            label = { Text("Заглавная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                     }
                     
-                    // Tap 2
+                    // Второе нажатие
                     Text(
-                        text = "Tap 2",
+                        text = "Второе нажатие",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -487,22 +487,22 @@ private fun KeyEditDialog(
                         OutlinedTextField(
                             value = tap2Lower,
                             onValueChange = { tap2Lower = it },
-                            label = { Text("Lowercase") },
+                            label = { Text("Строчная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = tap2Upper,
                             onValueChange = { tap2Upper = it },
-                            label = { Text("Uppercase") },
+                            label = { Text("Заглавная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                     }
                     
-                    // Tap 3
+                    // Третье нажатие
                     Text(
-                        text = "Tap 3",
+                        text = "Третье нажатие",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -513,22 +513,22 @@ private fun KeyEditDialog(
                         OutlinedTextField(
                             value = tap3Lower,
                             onValueChange = { tap3Lower = it },
-                            label = { Text("Lowercase") },
+                            label = { Text("Строчная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = tap3Upper,
                             onValueChange = { tap3Upper = it },
-                            label = { Text("Uppercase") },
+                            label = { Text("Заглавная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                     }
                     
-                    // Tap 4
+                    // Четвёртое нажатие
                     Text(
-                        text = "Tap 4",
+                        text = "Четвёртое нажатие",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -539,21 +539,21 @@ private fun KeyEditDialog(
                         OutlinedTextField(
                             value = tap4Lower,
                             onValueChange = { tap4Lower = it },
-                            label = { Text("Lowercase") },
+                            label = { Text("Строчная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = tap4Upper,
                             onValueChange = { tap4Upper = it },
-                            label = { Text("Uppercase") },
+                            label = { Text("Заглавная") },
                             singleLine = true,
                             modifier = Modifier.weight(1f)
                         )
                     }
                     
                     Text(
-                        text = "Leave empty if not needed",
+                        text = "Можно оставить пустым",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
