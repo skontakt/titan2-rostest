@@ -99,8 +99,38 @@ jobs:
       - name: Настроить Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Создать временный релизный ключ
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p app/build
+          echo "TITAN_SIGNING_PASSWORD=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
+          keytool -genkeypair -noprompt -keystore app/build/titan-release.jks \
+            -alias titan2 -storepass "$(grep '^TITAN_SIGNING_PASSWORD=' "$GITHUB_ENV" | tail -1 | cut -d= -f2)" \
+            -keypass "$(grep '^TITAN_SIGNING_PASSWORD=' "$GITHUB_ENV" | tail -1 | cut -d= -f2)" \
+            -keyalg RSA -keysize 3072 -validity 3650 \
+            -dname "CN=Titan2 Rostest Offline, O=Keyboard, C=LT"
+
       - name: Собрать устанавливаемый APK
-        run: bash ./gradlew --no-daemon assembleDebug
+        env:
+          TITAN_RELEASE_KEYSTORE: build/titan-release.jks
+          TITAN_RELEASE_STORE_PASSWORD: ${{ env.TITAN_SIGNING_PASSWORD }}
+          TITAN_RELEASE_KEY_ALIAS: titan2
+          TITAN_RELEASE_KEY_PASSWORD: ${{ env.TITAN_SIGNING_PASSWORD }}
+        run: bash ./gradlew --no-daemon assembleRelease
+
+      - name: Проверить отсутствие сетевых и чувствительных разрешений
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=app/build/outputs/apk/release/app-release.apk
+          test -s "$APK"
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          "$AAPT" dump permissions "$APK" | tee /tmp/titan-permissions.txt
+          if grep -E 'android.permission.(INTERNET|RECORD_AUDIO|READ_PHONE_STATE|ANSWER_PHONE_CALLS|MODIFY_PHONE_STATE)' /tmp/titan-permissions.txt; then
+            echo "::error::Небезопасное разрешение осталось"; exit 1
+          fi
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$APK"
 
       - name: Выпустить APK напрямую, не prerelease
         env:
@@ -108,14 +138,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cp app/build/outputs/apk/debug/app-debug.apk Titan2-Rostest.apk
-          if gh release view v1.1.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload v1.1.0 Titan2-Rostest.apk --repo "$GITHUB_REPOSITORY" --clobber
-            gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false
+          cp app/build/outputs/apk/release/app-release.apk Titan2-Rostest.apk
+          if gh release view v2.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload v2.0.0 Titan2-Rostest.apk --repo "$GITHUB_REPOSITORY" --clobber
+            gh release edit v2.0.0 --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false
           else
-            gh release create v1.1.0 Titan2-Rostest.apk \
+            gh release create v2.0.0 Titan2-Rostest.apk \
               --repo "$GITHUB_REPOSITORY" \
-              --title "Клавиатура для Titan 2 / Elite / Pro — v1.1.0" \
-              --notes "Titan 2 / Elite / Pro. Три раскладки: английская, русский транслит и Ростест. Alt + Пробел — переключение. Восстановлены подсказки и нижняя панель. Интерфейс и обучение на русском. APK подписан ключом отладочной сборки; при несовместимой подписи удалите предыдущую версию перед установкой." \
+              --title "Клавиатура для Titan 2 / Elite / Pro — v2.0.0" \
+              --notes "Titan 2 / Elite / Pro: три раскладки, Alt + Пробел. Офлайн: без подсказок слов, истории буфера, доступа в интернет, резервного копирования, службы специальных возможностей и голосового ввода. APK подписан одноразовым релизным ключом: перед установкой удалите старую версию (настройки будут сброшены)." \
               --latest
           fi
