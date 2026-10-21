@@ -713,9 +713,6 @@ private lateinit var candidatesBarController: CandidatesBarController
     }
     
     /**
-     * Commits an emoji    }
-    
-    /**
      * Commits an emoji to the current input connection.
      * Called from EmojiPickerActivity after emoji selection.
      */
@@ -1551,10 +1548,6 @@ private lateinit var candidatesBarController: CandidatesBarController
         }
     }
     
-    /**
-     * Gets the partial word currently being typed (before the cursor).
-     * @return The current word prefix, or empty string if none
-     */
     /**
      * Clears any composing text/underline.
      */
