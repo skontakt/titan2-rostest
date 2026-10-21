@@ -149,7 +149,7 @@ fun VariationCustomizationScreen(
                             )
                         }
                         Text(
-                            text = "Customize Variations",
+                            text = "Настройка дополнительных символов",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.padding(start = 8.dp)
@@ -222,7 +222,7 @@ fun VariationCustomizationScreen(
         ) {
             // Info text
             Text(
-                text = "Tap on any box to select a variation character. Up to 8 variations per letter. Default special characters (6 slots) appear in the suggestions bar when no variations are shown.",
+                text = "Выберите символ в ячейке. До 8 вариантов на букву. Дополнительные символы отображаются на панели подсказок.",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(16.dp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -232,7 +232,7 @@ fun VariationCustomizationScreen(
             
             // Default Special Characters Section
             Text(
-                text = "Default Special Characters (6 slots)",
+                text = "Основные специальные символы",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
@@ -286,7 +286,7 @@ fun VariationCustomizationScreen(
             
             // Alphabet Variations Section
             Text(
-                text = "Character Variations",
+                text = "Дополнительные буквы",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
@@ -417,10 +417,10 @@ fun VariationCustomizationScreen(
         AlertDialog(
             onDismissRequest = { showResetConfirmDialog = false },
             title = {
-                Text("Reset to Default?")
+                Text("Восстановить значения?")
             },
             text = {
-                Text("This will reset all variations to their default values.")
+                Text("Все дополнительные символы будут сброшены.")
             },
             confirmButton = {
                 TextButton(
@@ -434,14 +434,14 @@ fun VariationCustomizationScreen(
                         contentColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("Reset")
+                    Text("Сбросить")
                 }
             },
             dismissButton = {
                 TextButton(
                     onClick = { showResetConfirmDialog = false }
                 ) {
-                    Text("Cancel")
+                    Text("Отмена")
                 }
             }
         )
@@ -452,16 +452,16 @@ fun VariationCustomizationScreen(
         AlertDialog(
             onDismissRequest = { showImportSuccessDialog = false },
             title = {
-                Text("Import Successful")
+                Text("Импорт выполнен")
             },
             text = {
-                Text("Variations have been imported successfully.")
+                Text("Символы успешно импортированы.")
             },
             confirmButton = {
                 TextButton(
                     onClick = { showImportSuccessDialog = false }
                 ) {
-                    Text("OK")
+                    Text("ОК")
                 }
             }
         )
@@ -472,7 +472,7 @@ fun VariationCustomizationScreen(
         AlertDialog(
             onDismissRequest = { showImportErrorDialog = false },
             title = {
-                Text("Import Failed")
+                Text("Ошибка импорта")
             },
             text = {
                 Text(importErrorMessage)
@@ -481,7 +481,7 @@ fun VariationCustomizationScreen(
                 TextButton(
                     onClick = { showImportErrorDialog = false }
                 ) {
-                    Text("OK")
+                    Text("ОК")
                 }
             }
         )
