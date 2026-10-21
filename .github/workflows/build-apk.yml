@@ -13,6 +13,10 @@ on:
       - 'settings.gradle.kts'
   workflow_dispatch:
 
+concurrency:
+  group: titan2-apk-release
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -105,13 +109,13 @@ jobs:
         run: |
           set -euo pipefail
           cp app/build/outputs/apk/debug/app-debug.apk Titan2-Rostest.apk
-          if gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload v1.0.0 Titan2-Rostest.apk --repo "$GITHUB_REPOSITORY" --clobber
-            gh release edit v1.0.0 --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false
+          if gh release view v1.1.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload v1.1.0 Titan2-Rostest.apk --repo "$GITHUB_REPOSITORY" --clobber
+            gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" --draft=false --prerelease=false
           else
-            gh release create v1.0.0 Titan2-Rostest.apk \
+            gh release create v1.1.0 Titan2-Rostest.apk \
               --repo "$GITHUB_REPOSITORY" \
-              --title "Клавиатура для Titan 2 / Elite / Pro — v1.0.0" \
-              --notes "Поддерживаются Titan 2, Titan 2 Elite и Titan 2 Elite Pro. Английская, русский транслит, русский Ростест. Переключение: Alt + Пробел. Скачайте APK, установите и включите клавиатуру в настройках Android. APK подписан отладочным ключом." \
+              --title "Клавиатура для Titan 2 / Elite / Pro — v1.1.0" \
+              --notes "Titan 2 / Elite / Pro. Три раскладки: английская, русский транслит и Ростест. Alt + Пробел — переключение. Восстановлены подсказки и нижняя панель. Интерфейс и обучение на русском. APK подписан ключом отладочной сборки; при несовместимой подписи удалите предыдущую версию перед установкой." \
               --latest
           fi
