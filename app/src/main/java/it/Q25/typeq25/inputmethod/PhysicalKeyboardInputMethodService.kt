@@ -1102,7 +1102,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         )
         
         val modifierSnapshot = modifierStateController.snapshot()
-        val suggestions = getSuggestions()
+        val suggestions = if (shouldDisableSmartFeatures) emptyList() else getSuggestions()
         
         // If no variations and no suggestions, provide default special characters
         val finalVariations = if (variationSnapshot.variations.isEmpty() && suggestions.isEmpty()) {
@@ -1324,9 +1324,10 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         // Enable Android's built-in auto-correction for editable fields
         if (info != null && isEditable) {
             // Remove NO_SUGGESTIONS flag and add auto-correction flags
-            info.inputType = info.inputType and android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS.inv()
-            info.inputType = info.inputType or android.text.InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-            info.inputType = info.inputType or android.text.InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+            if (!state.shouldDisableSmartFeatures) {
+                info.inputType = info.inputType and android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS.inv()
+                info.inputType = info.inputType or android.text.InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+            }
         }
         
         if (isEditable && !restarting) {
