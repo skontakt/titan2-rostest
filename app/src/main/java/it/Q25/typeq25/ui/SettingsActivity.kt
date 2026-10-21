@@ -6,8 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import it.srik.TypeQ25.BuildConfig
 import it.srik.TypeQ25.R
-import it.srik.TypeQ25.update.checkForUpdate
-import it.srik.TypeQ25.update.showUpdateDialog
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
