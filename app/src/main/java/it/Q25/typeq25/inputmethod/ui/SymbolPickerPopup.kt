@@ -863,7 +863,7 @@ class SymbolPickerPopup(
         // Show "No results" message when search returns no items
         if (searchQuery.isNotEmpty() && items.isEmpty()) {
             val noResultsMessage = TextView(context).apply {
-                text = "No results found for \"$searchQuery\""
+                text = "Не найдено: \"$searchQuery\""
                 textSize = 14f
                 gravity = Gravity.CENTER
                 setTextColor(getTextColorSecondary())
@@ -879,14 +879,14 @@ class SymbolPickerPopup(
                 )
             }
             layout.addView(noResultsMessage)
-            pageIndicatorText?.text = "Page 1 of 1"
+            pageIndicatorText?.text = "Страница 1 из 1"
             return
         }
         
         // Show helpful message when favorites is empty
         if (currentTab == Tab.FAVORITES && items.isEmpty()) {
             val emptyMessage = TextView(context).apply {
-                text = "No favorites yet!\n\nLong-press any symbol or emoji to add it to favorites.\n\n(Maximum $MAX_FAVORITES items)"
+                text = "Избранных символов пока нет!\n\nУдерживайте символ или эмодзи, чтобы добавить в избранное.\n\n(Не более $MAX_FAVORITES элементов)"
                 textSize = 14f
                 gravity = Gravity.CENTER
                 setTextColor(getTextColorSecondary())
@@ -902,7 +902,7 @@ class SymbolPickerPopup(
                 )
             }
             layout.addView(emptyMessage)
-            pageIndicatorText?.text = "Page 1 of 1"
+            pageIndicatorText?.text = "Страница 1 из 1"
             return
         }
         
@@ -1057,19 +1057,19 @@ class SymbolPickerPopup(
                         // Remove from favorites if in favorites tab
                         removeFromFavorites(symbol)
                         updateKeyboardLayout()
-                        android.widget.Toast.makeText(context, "Removed from favorites", android.widget.Toast.LENGTH_SHORT).show()
+                        android.widget.Toast.makeText(context, "Удалено из избранного", android.widget.Toast.LENGTH_SHORT).show()
                     } else {
                         // Add to favorites if not in favorites tab
                         val added = addToFavorites(symbol)
                         if (added) {
                             // Refresh UI to show star indicator
                             updateKeyboardLayout()
-                            android.widget.Toast.makeText(context, "Added to favorites", android.widget.Toast.LENGTH_SHORT).show()
+                            android.widget.Toast.makeText(context, "Добавлено в избранное", android.widget.Toast.LENGTH_SHORT).show()
                         } else {
                             if (isFavorite(symbol)) {
-                                android.widget.Toast.makeText(context, "Already in favorites", android.widget.Toast.LENGTH_SHORT).show()
+                                android.widget.Toast.makeText(context, "Уже есть в избранном", android.widget.Toast.LENGTH_SHORT).show()
                             } else {
-                                android.widget.Toast.makeText(context, "Favorites full (max $MAX_FAVORITES)", android.widget.Toast.LENGTH_SHORT).show()
+                                android.widget.Toast.makeText(context, "Избранное заполнено (не более $MAX_FAVORITES)", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -1380,7 +1380,7 @@ class SymbolPickerPopup(
         if (frequentItems.isEmpty()) {
             // Show "Recently Used" label when empty
             val emptyLabel = TextView(context).apply {
-                text = "Recently Used: (empty)"
+                text = "Недавние: пусто"
                 textSize = 12f
                 setTextColor(Color.parseColor("#888888"))
                 gravity = Gravity.CENTER
@@ -1395,7 +1395,7 @@ class SymbolPickerPopup(
         } else {
             // Add "Recently Used" label
             val label = TextView(context).apply {
-                text = "Recent:"
+                text = "Недавние:"
                 textSize = 12f
                 setTextColor(Color.parseColor("#AAAAAA"))
                 gravity = Gravity.CENTER_VERTICAL
