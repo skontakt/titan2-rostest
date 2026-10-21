@@ -44,8 +44,6 @@ import androidx.compose.foundation.background
 import it.srik.TypeQ25.R
 import android.widget.Toast
 import it.srik.TypeQ25.BuildConfig
-import it.srik.TypeQ25.update.checkForUpdate
-import it.srik.TypeQ25.update.showUpdateDialog
 
 /**
  * App settings screen.
@@ -58,22 +56,7 @@ fun SettingsScreen(
     
     var checkingForUpdates by remember { mutableStateOf(false) }
     
-    // Automatic update check disabled
-    /*
-    LaunchedEffect(Unit) {
-        checkForUpdate(
-            context = context,
-            currentVersion = BuildConfig.VERSION_NAME,
-            ignoreDismissedReleases = true
-        ) { hasUpdate, latestVersion, downloadUrl ->
-            if (hasUpdate && latestVersion != null) {
-                showUpdateDialog(context, latestVersion, downloadUrl)
-            }
-        }
-    }
-    */
-    
-    // State for navigation to category screens
+// State for navigation to category screens
     var showKeyboardTimingSettings by remember { mutableStateOf(false) }
     var showTextInputSettings by remember { mutableStateOf(false) }
     var showAutoCorrectionCategory by remember { mutableStateOf(false) }
@@ -291,42 +274,6 @@ fun SettingsScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(R.string.settings_category_text_input),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Medium,
-                                maxLines = 1
-                            )
-                        }
-                        Icon(
-                            imageVector = Icons.Filled.ArrowForward,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            
-                // Auto-correction
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp)
-                        .clickable { showAutoCorrectionCategory = true }
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Language,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = stringResource(R.string.settings_category_auto_correction),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Medium,
                                 maxLines = 1
@@ -659,89 +606,7 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    tonalElevation = 0.dp,
-                    shadowElevation = 0.dp,
-                    shape = MaterialTheme.shapes.extraSmall,
-                    color = MaterialTheme.colorScheme.surfaceVariant
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp, horizontal = 12.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.settings_update_section_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            text = stringResource(R.string.settings_update_section_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
-                            onClick = {
-                                // Update check disabled
-                                Toast.makeText(
-                                    context,
-                                    "Автоматическая проверка обновлений отключена",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                /*
-                                checkingForUpdates = true
-                                checkForUpdate(
-                                    context = context,
-                                    currentVersion = BuildConfig.VERSION_NAME,
-                                    ignoreDismissedReleases = false
-                                ) { hasUpdate, latestVersion, downloadUrl ->
-                                    checkingForUpdates = false
-                                    when {
-                                        latestVersion == null -> {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.settings_update_check_failed),
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                        hasUpdate -> showUpdateDialog(context, latestVersion, downloadUrl)
-                                        else -> {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.settings_update_up_to_date),
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    }
-                                }
-                                */
-                            },
-                            enabled = !checkingForUpdates,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            if (checkingForUpdates) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    CircularProgressIndicator(
-                                        strokeWidth = 2.dp,
-                                        modifier = Modifier.size(16.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(stringResource(R.string.settings_update_checking))
-                                }
-                            } else {
-                                Text(stringResource(R.string.settings_update_button))
-                            }
-                        }
-                    }
-                }
+                Text("Приложение работает полностью офлайн. Обновления устанавливаются вручную через APK.", modifier = Modifier.padding(16.dp))
 
                 // Build Info
                 Surface(
