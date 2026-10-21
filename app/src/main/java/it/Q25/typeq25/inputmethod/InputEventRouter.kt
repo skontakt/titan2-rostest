@@ -666,16 +666,6 @@ class InputEventRouter(
         // Check CTRL key BEFORE SHIFT because Q25 uses keycode 60 which is KEYCODE_SHIFT_RIGHT
         if (isCtrlKey(keyCode)) {
             android.util.Log.d("InputEventRouter", "routeEditableFieldKeyDown: CTRL key detected, keyCode=$keyCode")
-            // Check if Alt is physically pressed (not latch) - if so, trigger speech recognition (if enabled)
-            // Only trigger if both keys are physically pressed simultaneously, not if one is in latch
-            if (event?.isAltPressed == true && 
-                !params.ctrlPressed &&
-                SettingsManager.getAltCtrlSpeechShortcutEnabled(context)) {
-                android.util.Log.d("InputEventRouter", "routeEditableFieldKeyDown: Alt+Ctrl speech shortcut triggered")
-                callbacks.startSpeechRecognition()
-                return EditableFieldRoutingResult.Consume
-            }
-            
             android.util.Log.d("InputEventRouter", "routeEditableFieldKeyDown: Calling modifierStateController.handleCtrlKeyDown")
             // Always handle Ctrl key to support double-tap and triple-tap
             val result = controllers.modifierStateController.handleCtrlKeyDown(
@@ -717,15 +707,6 @@ class InputEventRouter(
         }
 
         if (keyCode == KeyEvent.KEYCODE_ALT_LEFT || keyCode == KeyEvent.KEYCODE_ALT_RIGHT) {
-            // Check if Ctrl is physically pressed (not latch) - if so, trigger speech recognition (if enabled)
-            // Only trigger if both keys are physically pressed simultaneously, not if one is in latch
-            if (event?.isCtrlPressed == true && 
-                !params.altPressed &&
-                SettingsManager.getAltCtrlSpeechShortcutEnabled(context)) {
-                callbacks.startSpeechRecognition()
-                return EditableFieldRoutingResult.Consume
-            }
-            
             if (controllers.symLayoutController.isSymActive()) {
                 if (controllers.symLayoutController.closeSymPage()) {
                     callbacks.updateStatusBar()
@@ -1101,7 +1082,7 @@ class InputEventRouter(
                     // Trigger speech on keycode 7, Alt+7 inserts 0
                     if (!isAltActive) {
                         (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { service ->
-                            service.startSpeechRecognitionFromRouter()
+                            Unit // Voice shortcuts disabled: no external recognizer
                         }
                         return true
                     }
@@ -1193,7 +1174,7 @@ class InputEventRouter(
                 "zero" -> {
                     // Alt+7 triggers speech-to-text (plain 7 inserts 0)
                     (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { service ->
-                        service.startSpeechRecognitionFromRouter()
+                        Unit // Voice shortcuts disabled: no external recognizer
                     }
                     return true
                 }
@@ -1220,7 +1201,6 @@ class InputEventRouter(
         // Consume Alt+Space to avoid Android's symbol picker and just insert a space.
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
             // Record the word before space for suggestions
-            recordWordBeforeSpace(ic)
             
             ic.commitText(" ", 1)
             updateStatusBar()
@@ -1244,35 +1224,6 @@ class InputEventRouter(
         return result
     }
     
-    private fun recordWordBeforeSpace(ic: android.view.inputmethod.InputConnection) {
-        try {
-            val textBefore = ic.getTextBeforeCursor(100, 0) ?: return
-            
-            // Find the last word
-            var startIndex = textBefore.length - 1
-            while (startIndex >= 0) {
-                val char = textBefore[startIndex]
-                if (char.isWhitespace() || char in ".,;:!?\"'()[]{}/<>@#\$%^&*+=|\\") {
-                    break
-                }
-                startIndex--
-            }
-            
-            val lastWord = textBefore.substring(startIndex + 1)
-            if (lastWord.isNotEmpty() && lastWord.length >= 2) {
-                (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { svc ->
-                    try {
-                        svc.suggestionEngine.recordWord(lastWord)
-                    } catch (e: Exception) {
-                        // Silently ignore errors
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            // Silently ignore errors
-        }
-    }
-
     /**
      * Handles Ctrl-modified shortcuts in editable fields (copy/paste/cut/undo/select_all,
      * expand selection, DPAD/TAB/PAGE/ESC mappings and Ctrl+Backspace behaviour).
