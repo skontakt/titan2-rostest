@@ -34,7 +34,6 @@ import it.srik.TypeQ25.data.layout.LayoutFileStore
 import it.srik.TypeQ25.data.layout.LayoutMapping
 import it.srik.TypeQ25.data.mappings.KeyMappingLoader
 import it.srik.TypeQ25.data.variation.VariationRepository
-import it.srik.TypeQ25.inputmethod.SpeechRecognitionActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -88,18 +87,12 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
 
     private lateinit var altSymManager: AltSymManager
     
-    // Broadcast receiver for speech recognition
-    private var speechResultReceiver: BroadcastReceiver? = null
-    private lateinit var candidatesBarController: CandidatesBarController
+private lateinit var candidatesBarController: CandidatesBarController
 
     // Symbol picker popup
     private var symbolPickerPopup: it.srik.TypeQ25.inputmethod.ui.SymbolPickerPopup? = null
     
-    // Clipboard history
-    private lateinit var clipboardHistoryManager: it.srik.TypeQ25.clipboard.ClipboardHistoryManager
-    private var clipboardHistoryPopup: it.srik.TypeQ25.inputmethod.ui.ClipboardHistoryPopup? = null
-    
-    // Emoji shortcode support
+// Emoji shortcode support
     private lateinit var emojiShortcodeManager: it.srik.TypeQ25.emoji.EmojiShortcodeManager
     private var emojiShortcodePopup: it.srik.TypeQ25.inputmethod.ui.EmojiShortcodePopup? = null
 
@@ -215,7 +208,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
     private lateinit var keyboardVisibilityController: KeyboardVisibilityController
     private lateinit var launcherShortcutController: LauncherShortcutController
     private lateinit var modifierOverlay: it.srik.TypeQ25.inputmethod.ui.ModifierOverlay
-    internal lateinit var suggestionEngine: SuggestionEngine
     private var clearAltOnSpaceEnabled: Boolean = false
     
     // Cached terminal app check to avoid repeated package name lookups
@@ -254,28 +246,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         updateStatusBarText()
     }
     
-    private fun startSpeechRecognition() {
-        try {
-            val intent = Intent(this, SpeechRecognitionActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_NO_HISTORY or
-                        Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-            }
-            startActivity(intent)
-            Log.d(TAG, "Speech recognition started via Alt+Ctrl shortcut")
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to launch speech recognition", e)
-        }
-    }
-    
-    /**
-     * Public method to start speech recognition from InputEventRouter
-     */
-    fun startSpeechRecognitionFromRouter() {
-        startSpeechRecognition()
-    }
-
-
     /**
      * Initializes the input context for a field.
      * This method contains all common initialization logic that must run
@@ -597,7 +567,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
             doubleTapThreshold = DOUBLE_TAP_THRESHOLD
         )
         autoCorrectionManager = AutoCorrectionManager(this)
-        suggestionEngine = SuggestionEngine(this)
         
         modifierOverlay = it.srik.TypeQ25.inputmethod.ui.ModifierOverlay(this)
         
@@ -628,10 +597,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         altSymManager = AltSymManager(assets, prefs, this)
         altSymManager.reloadSymMappings() // Load custom mappings for page 1 if present
         altSymManager.reloadSymMappings2() // Load custom mappings for page 2 if present
-        
-        // Initialize clipboard history manager
-        clipboardHistoryManager = it.srik.TypeQ25.clipboard.ClipboardHistoryManager(this)
-        clipboardHistoryManager.startMonitoring()
         
         // Initialize emoji shortcode manager
         emojiShortcodeManager = it.srik.TypeQ25.emoji.EmojiShortcodeManager(this)
@@ -675,9 +640,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         // Load auto-correction rules
         AutoCorrector.loadCorrections(assets, this)
         
-        // Load dictionary words into suggestion engine
-        suggestionEngine.loadDictionaryWords(AutoCorrector.corrections)
-        
         // Register listener for SharedPreferences changes
         prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPrefs, key ->
             if (key == "sym_mappings_custom") {
@@ -707,8 +669,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
                 Log.d(TAG, "Auto-correction rules changed, reloading...")
                 // Reload auto-corrections (including new custom languages)
                 AutoCorrector.loadCorrections(assets, this)
-                // Reload suggestion dictionaries
-                suggestionEngine.loadDictionaryWords(AutoCorrector.corrections)
             } else if (key == "nav_mode_mappings_updated") {
                 Log.d(TAG, "Nav mode mappings changed, reloading...")
                 // Reload nav mode key mappings
@@ -747,73 +707,10 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         }
         prefs.registerOnSharedPreferenceChangeListener(prefsListener)
         
-        // Register broadcast receiver for speech recognition
-        speechResultReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                Log.d(TAG, "Broadcast receiver called - action: ${intent?.action}")
-                if (intent?.action == SpeechRecognitionActivity.ACTION_SPEECH_RESULT) {
-                    val text = intent.getStringExtra(SpeechRecognitionActivity.EXTRA_TEXT)
-                    Log.d(TAG, "Broadcast received with text: $text")
-                    if (text != null && text.isNotEmpty()) {
-                        Log.d(TAG, "Received speech recognition result: $text")
-                        
-                        // Delay text insertion to give the system time to restore InputConnection
-                        // after the speech recognition activity has closed.
-                        mainHandler.postDelayed({
-                            // Try multiple times if InputConnection is not immediately available
-                            var attempts = 0
-                            val maxAttempts = 10
-                            
-                            fun tryInsertText() {
-                                val inputConnection = currentInputConnection
-                                if (inputConnection != null) {
-                                    try {
-                                        // Use batch edit for atomic operation
-                                        inputConnection.beginBatchEdit()
-                                        try {
-                                            // First try setComposingText, which works better with some apps like Discord
-                                            inputConnection.setComposingText(text, 1)
-                                            // Then finishComposingText to commit it
-                                            inputConnection.finishComposingText()
-                                            Log.d(TAG, "Speech text inserted successfully using setComposingText: $text")
-                                        } catch (e: Exception) {
-                                            // Fallback to commitText if setComposingText fails
-                                            Log.d(TAG, "setComposingText failed, trying commitText", e)
-                                            inputConnection.commitText(text, 1)
-                                            Log.d(TAG, "Speech text inserted successfully using commitText: $text")
-                                        }
-                                    } finally {
-                                        inputConnection.endBatchEdit()
-                                    }
-                                } else {
-                                    attempts++
-                                    if (attempts < maxAttempts) {
-                                        Log.d(TAG, "InputConnection not available, attempt $attempts/$maxAttempts, retrying in 100ms...")
-                                        mainHandler.postDelayed({ tryInsertText() }, 100)
-                                    } else {
-                                        Log.w(TAG, "InputConnection not available after $maxAttempts attempts, text not inserted: $text")
-                                    }
-                                }
-                            }
-                            
-                            tryInsertText()
-                        }, 300) // Wait 300ms before trying to insert text
-                    }
-                }
-            }
-        }
-        
-        val filter = IntentFilter(SpeechRecognitionActivity.ACTION_SPEECH_RESULT)
-        
-        // On Android 13+ (API 33+) we must specify whether the receiver is exported
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(speechResultReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
-        } else {
-            registerReceiver(speechResultReceiver, filter)
-        }
-        
-        Log.d(TAG, "Broadcast receiver registered for: ${SpeechRecognitionActivity.ACTION_SPEECH_RESULT}")
     }
+    
+    /**
+     * Commits an emoji    }
     
     /**
      * Commits an emoji to the current input connection.
@@ -836,7 +733,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         Log.d(TAG, "showSymbolPickerPopup() called")
         
         // Dismiss clipboard popup if showing
-        clipboardHistoryPopup?.dismiss()
         
         // Get the input view to anchor the popup
         val anchorView = window?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
@@ -878,52 +774,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         Log.d(TAG, "show() completed")
     }
     
-    /**
-     * Shows the clipboard history popup when Ctrl+Shift+V is pressed.
-     */
-    private fun showClipboardHistoryPopup() {
-        Log.d(TAG, "showClipboardHistoryPopup() called")
-        
-        // Dismiss existing popups
-        clipboardHistoryPopup?.dismiss()
-        symbolPickerPopup?.dismiss()
-        
-        // Get the input view to anchor the popup
-        val anchorView = window?.window?.decorView?.findViewById<android.view.View>(android.R.id.content)
-        Log.d(TAG, "Anchor view: $anchorView, window: ${window?.window}")
-        
-        if (anchorView == null) {
-            android.util.Log.w(TAG, "Cannot show clipboard history - no anchor view")
-            return
-        }
-        
-        if (!::clipboardHistoryManager.isInitialized) {
-            android.util.Log.w(TAG, "Clipboard manager not initialized")
-            return
-        }
-        
-        Log.d(TAG, "Creating ClipboardHistoryPopup")
-        // Create and show the popup
-        clipboardHistoryPopup = it.srik.TypeQ25.inputmethod.ui.ClipboardHistoryPopup(
-            context = this,
-            clipboardManager = clipboardHistoryManager,
-            onItemSelected = { text ->
-                val ic = currentInputConnection
-                if (ic != null) {
-                    ic.commitText(text, 1)
-                    Log.d(TAG, "Pasted from clipboard history: ${text.take(50)}...")
-                }
-            },
-            onDismiss = {
-                clipboardHistoryPopup = null
-            }
-        )
-        
-        Log.d(TAG, "Calling show() on clipboardHistoryPopup: $clipboardHistoryPopup")
-        clipboardHistoryPopup?.show(anchorView)
-        Log.d(TAG, "show() completed")
-    }
-    
     private fun toggleFlashlight() {
         try {
             if (cameraManager == null || cameraId == null) {
@@ -960,13 +810,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         symbolPickerPopup?.dismiss()
         symbolPickerPopup = null
         
-        // Dismiss clipboard history popup and stop monitoring
-        clipboardHistoryPopup?.dismiss()
-        clipboardHistoryPopup = null
-        if (::clipboardHistoryManager.isInitialized) {
-            clipboardHistoryManager.stopMonitoring()
-        }
-        
         // Dismiss emoji shortcode popup
         emojiShortcodePopup?.dismiss()
         emojiShortcodePopup = null
@@ -982,27 +825,11 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
             prefs.unregisterOnSharedPreferenceChangeListener(it)
         }
         
-        // Save user word history and cleanup suggestion engine
-        if (::suggestionEngine.isInitialized) {
-            suggestionEngine.saveUserHistory()
-            suggestionEngine.cleanup()
-        }
-        
         // Cleanup modifier overlay
         if (::modifierOverlay.isInitialized) {
             modifierOverlay.cleanup()
         }
         
-        // Unregister broadcast receiver
-        speechResultReceiver?.let {
-            try {
-                unregisterReceiver(it)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error while unregistering broadcast receiver", e)
-            }
-        }
-
-        speechResultReceiver = null
         cancelSpaceLongPress()
         multiTapController.cancelAll()
         
@@ -1102,10 +929,9 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         )
         
         val modifierSnapshot = modifierStateController.snapshot()
-        val suggestions = if (shouldDisableSmartFeatures) emptyList() else getSuggestions()
         
         // If no variations and no suggestions, provide default special characters
-        val finalVariations = if (variationSnapshot.variations.isEmpty() && suggestions.isEmpty()) {
+        val finalVariations = if (variationSnapshot.variations.isEmpty()) {
             // Show default special characters (limited to 8)
             it.srik.TypeQ25.data.DefaultSpecialChars.getDefaultChars(8)
         } else {
@@ -1126,8 +952,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
             symPage = symPage,
             variations = finalVariations,
             lastInsertedChar = variationSnapshot.lastInsertedChar,
-            shouldDisableSmartFeatures = shouldDisableSmartFeatures,
-            suggestions = suggestions
+            shouldDisableSmartFeatures = shouldDisableSmartFeatures
         )
         // Passa anche la mappa emoji quando SYM è attivo (solo pagina 1)
         val emojiMapText = symLayoutController.emojiMapText()
@@ -1727,30 +1552,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
      * Gets the partial word currently being typed (before the cursor).
      * @return The current word prefix, or empty string if none
      */
-    private fun getCurrentWord(): String {
-        val ic = currentInputConnection ?: return ""
-        try {
-            val textBefore = ic.getTextBeforeCursor(100, 0) ?: return ""
-            
-            // Find the last word boundary (space, punctuation, etc.)
-            var startIndex = textBefore.length - 1
-            while (startIndex >= 0) {
-                val char = textBefore[startIndex]
-                if (char.isWhitespace() || char in ".,;:!?\"'()[]{}/<>@#\$%^&*+=|\\") {
-                    break
-                }
-                startIndex--
-            }
-            
-            return textBefore.substring(startIndex + 1)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error getting current word", e)
-            return ""
-        }
-    }
-    
-
-    
     /**
      * Clears any composing text/underline.
      */
@@ -1763,70 +1564,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         }
     }
     
-    /**
-     * Gets word suggestions for the current typing context.
-     * @return List of suggested words (up to 3)
-     */
-    fun getSuggestions(): List<String> {
-        if (!::suggestionEngine.isInitialized) {
-            Log.d(TAG, "getSuggestions: suggestionEngine not initialized")
-            return emptyList()
-        }
-        
-        val currentWord = getCurrentWord()
-        Log.d(TAG, "getSuggestions: currentWord='$currentWord'")
-        if (currentWord.isEmpty()) return emptyList()
-        
-        val suggestions = suggestionEngine.getSuggestions(currentWord, 3)
-        Log.d(TAG, "getSuggestions: returning ${suggestions.size} suggestions: $suggestions")
-        return suggestions
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // Handle clipboard history popup key events FIRST (before any other processing)
-        if (clipboardHistoryPopup?.isShowing() == true) {
-            // Block Alt key itself when popup is showing
-            if (keyCode == KeyEvent.KEYCODE_ALT_LEFT || keyCode == KeyEvent.KEYCODE_ALT_RIGHT) {
-                return true // Consume Alt key to prevent background interaction
-            }
-            
-            // Check if Alt is active - if so, block ALL letter/number keys to prevent Alt mappings
-            val isAltActive = altLatchActive || altOneShot || altPressed || altPhysicallyPressed || event?.isAltPressed == true
-            if (isAltActive) {
-                // Block ALL letter keys (Q-P, A-L, Z-M) and number keys when Alt is active
-                if (keyCode in KeyEvent.KEYCODE_Q..KeyEvent.KEYCODE_P ||
-                    keyCode in KeyEvent.KEYCODE_A..KeyEvent.KEYCODE_L ||
-                    keyCode in KeyEvent.KEYCODE_Z..KeyEvent.KEYCODE_M ||
-                    keyCode == KeyEvent.KEYCODE_0 ||
-                    keyCode in KeyEvent.KEYCODE_1..KeyEvent.KEYCODE_9) {
-                    Log.d(TAG, "Clipboard popup: blocking Alt+key combination (keyCode=$keyCode)")
-                    return true // Consume to prevent Alt mapping from triggering
-                }
-            }
-            
-            // Block ALL DPAD keys and number keys when clipboard popup is showing
-            if (keyCode == KeyEvent.KEYCODE_DPAD_UP ||
-                keyCode == KeyEvent.KEYCODE_DPAD_DOWN ||
-                keyCode == KeyEvent.KEYCODE_DPAD_LEFT ||
-                keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ||
-                keyCode == KeyEvent.KEYCODE_DPAD_CENTER ||
-                keyCode == KeyEvent.KEYCODE_ENTER ||
-                keyCode == KeyEvent.KEYCODE_ESCAPE ||
-                keyCode == KeyEvent.KEYCODE_DEL ||
-                keyCode == KeyEvent.KEYCODE_FORWARD_DEL ||
-                keyCode == KeyEvent.KEYCODE_K ||
-                keyCode == KeyEvent.KEYCODE_J ||
-                keyCode == KeyEvent.KEYCODE_0 ||
-                keyCode in KeyEvent.KEYCODE_1..KeyEvent.KEYCODE_9) {
-                val isCtrlActive = ctrlLatchActive || ctrlOneShot || ctrlPressed || ctrlPhysicallyPressed || event?.isCtrlPressed == true
-                if (clipboardHistoryPopup?.handlePhysicalKey(keyCode, isCtrlActive, isAltActive) == true) {
-                    return true // Consumed by popup
-                }
-                // Even if not handled, consume these keys to prevent background interaction
-                return true
-            }
-        }
-        
         // Handle emoji shortcode popup navigation early (before other processing)
         if (emojiShortcodePopup?.isShowing() == true) {
             // Allow DPAD UP/DOWN for navigation, ENTER/DPAD_CENTER for selection
@@ -2021,19 +1759,6 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
             }
         }
         
-        // Handle Ctrl+Shift+V for clipboard history
-        // Only trigger on physically pressed Shift, not auto-capitalize shift (shiftOneShot)
-        // to avoid interfering with paste when auto-capitalize is active
-        if (
-            hasEditableField &&
-            keyCode == KeyEvent.KEYCODE_V &&
-            (event?.isCtrlPressed == true || ctrlPressed || ctrlLatchActive || ctrlOneShot) &&
-            (event?.isShiftPressed == true || shiftPressed || shiftPhysicallyPressed)
-        ) {
-            showClipboardHistoryPopup()
-            return true
-        }
-            
         // Alt+Space changes the layout without inserting a space.
         if (
             hasEditableField &&
@@ -2366,7 +2091,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
             ensureInputViewCreated()
         }
         
-        val isAutoCorrectEnabled = SettingsManager.getAutoCorrectEnabled(this) && !shouldDisableSmartFeatures
+        val isAutoCorrectEnabled = false // Deliberately disable word processing for privacy
         if (
             inputEventRouter.handleTextInputPipeline(
                 keyCode = keyCode,
@@ -2430,7 +2155,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
                 callSuperWithKey = { defaultKeyCode, defaultEvent ->
                     super.onKeyDown(defaultKeyCode, defaultEvent)
                 },
-                startSpeechRecognition = { startSpeechRecognition() },
+                startSpeechRecognition = { /* External speech disabled */ },
                 getMapping = { code -> LayoutMappingRepository.getMapping(code) },
                 handleMultiTapCommit = { code, mapping, uppercase, inputConnection, allowLongPress ->
                     handleMultiTapCommit(code, mapping, uppercase, inputConnection, allowLongPress)
@@ -2459,7 +2184,7 @@ class PhysicalKeyboardInputMethodService : InputMethodService(), LifecycleOwner,
         
         // Check for emoji shortcodes after text input
         if (routingDecision == InputEventRouter.EditableFieldRoutingResult.Consume) {
-            checkAndShowEmojiShortcode()
+            // Automatic context scanning disabled in the privacy edition.
         }
 
         return when (routingDecision) {
