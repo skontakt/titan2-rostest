@@ -1,0 +1,132 @@
+package it.srik.TypeQ25.core
+
+import android.content.Context
+import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.InputConnection
+import it.srik.TypeQ25.inputmethod.AutoCorrector
+
+class AutoCorrectionManager(
+    private val context: Context
+) {
+
+    companion object {
+        private const val TAG = "AutoCorrectionManager"
+    }
+
+    fun handleBackspaceUndo(
+        keyCode: Int,
+        inputConnection: InputConnection?,
+        isAutoCorrectEnabled: Boolean,
+        onStatusBarUpdate: () -> Unit
+    ): Boolean {
+        if (!isAutoCorrectEnabled || keyCode != KeyEvent.KEYCODE_DEL || inputConnection == null) {
+            return false
+        }
+
+        val correction = AutoCorrector.getLastCorrection() ?: return false
+        val textBeforeCursor = inputConnection.getTextBeforeCursor(
+            correction.correctedWord.length + 2,
+            0
+        ) ?: return false
+
+        if (textBeforeCursor.length < correction.correctedWord.length) {
+            return false
+        }
+
+        val lastChars = textBeforeCursor.substring(
+            maxOf(0, textBeforeCursor.length - correction.correctedWord.length - 1)
+        )
+
+        val matchesCorrection = lastChars.endsWith(correction.correctedWord) ||
+            lastChars.trimEnd().endsWith(correction.correctedWord)
+
+        if (!matchesCorrection) {
+            return false
+        }
+
+        // Only delete the corrected word itself, not trailing punctuation/whitespace
+        // This ensures backspace deletes one character at a time as expected
+        val charsToDelete = correction.correctedWord.length
+
+        // Use batch edit to ensure operations are atomic and prevent issues with 
+        // interleaved input processing that could cause duplicate characters
+        inputConnection.beginBatchEdit()
+        try {
+            inputConnection.deleteSurroundingText(charsToDelete, 0)
+            inputConnection.commitText(correction.originalWord, 1)
+        } finally {
+            inputConnection.endBatchEdit()
+        }
+        
+        AutoCorrector.undoLastCorrection()
+        onStatusBarUpdate()
+        Log.d(TAG, "Auto-correction undone: '${correction.correctedWord}' → '${correction.originalWord}'")
+        return true
+    }
+
+    fun handleSpaceOrPunctuation(
+        keyCode: Int,
+        event: KeyEvent?,
+        inputConnection: InputConnection?,
+        isAutoCorrectEnabled: Boolean,
+        onStatusBarUpdate: () -> Unit
+    ): Boolean {
+        if (!isAutoCorrectEnabled || inputConnection == null) {
+            return false
+        }
+
+        val isSpace = keyCode == KeyEvent.KEYCODE_SPACE
+        val isPunctuation = event?.unicodeChar != null &&
+            event.unicodeChar != 0 &&
+            event.unicodeChar.toChar() in ".,;:!?()[]{}\"'"
+
+        if (!isSpace && !isPunctuation) {
+            return false
+        }
+
+        val textBeforeCursor = inputConnection.getTextBeforeCursor(100, 0)
+        val correction = AutoCorrector.processText(textBeforeCursor, context = context) ?: return false
+
+        val (wordToReplace, correctedWord) = correction
+        
+        // Use batch edit to ensure operations are atomic
+        inputConnection.beginBatchEdit()
+        try {
+            inputConnection.deleteSurroundingText(wordToReplace.length, 0)
+            inputConnection.commitText(correctedWord, 1)
+            AutoCorrector.recordCorrection(wordToReplace, correctedWord)
+
+            when {
+                isSpace -> inputConnection.commitText(" ", 1)
+                isPunctuation && event?.unicodeChar != null && event.unicodeChar != 0 -> {
+                    inputConnection.commitText(event.unicodeChar.toChar().toString(), 1)
+                }
+            }
+        } finally {
+            inputConnection.endBatchEdit()
+        }
+
+        onStatusBarUpdate()
+        return true
+    }
+
+    fun handleAcceptOrResetOnOtherKeys(
+        keyCode: Int,
+        event: KeyEvent?,
+        isAutoCorrectEnabled: Boolean
+    ) {
+        if (!isAutoCorrectEnabled || keyCode == KeyEvent.KEYCODE_DEL) {
+            return
+        }
+
+        AutoCorrector.acceptLastCorrection()
+        if (event != null && event.unicodeChar != 0) {
+            val char = event.unicodeChar.toChar()
+            if (char.isLetterOrDigit()) {
+                AutoCorrector.clearRejectedWords()
+            }
+        }
+    }
+}
+
