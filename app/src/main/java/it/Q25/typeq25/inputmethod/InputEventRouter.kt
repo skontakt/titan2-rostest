@@ -1063,34 +1063,6 @@ class InputEventRouter(
             }
         }
 
-        // Handle keycode 7 for Q25 device based on user preference
-        if (isQ25Device && keyCode == 7) {
-            val behavior = SettingsManager.getKeycode7Behavior(context)
-            val isAltActive = altLatchActive || altOneShot || event?.isAltPressed == true
-            
-            when (behavior) {
-                "zero" -> {
-                    // Insert 0 on keycode 7, Alt+7 triggers speech
-                    if (!isAltActive) {
-                        ic?.commitText("0", 1)
-                        updateStatusBar()
-                        return true
-                    }
-                    // Alt+7 will be handled in handleAltModifiedKey
-                }
-                "alt_zero" -> {
-                    // Trigger speech on keycode 7, Alt+7 inserts 0
-                    if (!isAltActive) {
-                        (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { service ->
-                            Unit // Voice shortcuts disabled: no external recognizer
-                        }
-                        return true
-                    }
-                    // Alt+7 will be handled in handleAltModifiedKey
-                }
-            }
-        }
-
         // If SYM is active, check SYM mappings first (they take precedence over Alt and Ctrl)
         // When SYM is active, all other modifiers are bypassed
         val shouldBypassSymForCtrl = event?.isCtrlPressed == true || ctrlLatchActive || ctrlOneShot
@@ -1167,40 +1139,8 @@ class InputEventRouter(
         }
 
         // Handle Alt+keycode 7 for Q25 device based on user preference
-        if (isQ25Device && keyCode == 7) {
-            val behavior = SettingsManager.getKeycode7Behavior(context)
-            
-            when (behavior) {
-                "zero" -> {
-                    // Alt+7 triggers speech-to-text (plain 7 inserts 0)
-                    (context as? it.srik.TypeQ25.inputmethod.PhysicalKeyboardInputMethodService)?.let { service ->
-                        Unit // Voice shortcuts disabled: no external recognizer
-                    }
-                    return true
-                }
-                "alt_zero" -> {
-                    // Alt+7 inserts 0 (or ٠ for Arabic with numerals enabled, but always 0 in passwords)
-                    val zero = if (!isPasswordField) {
-                        val currentLayout = SettingsManager.getKeyboardLayout(context)
-                        if (currentLayout.startsWith("arabic", ignoreCase = true) && 
-                            SettingsManager.getUseArabicNumerals(context)) {
-                            "٠"
-                        } else {
-                            "0"
-                        }
-                    } else {
-                        "0"
-                    }
-                    ic.commitText(zero, 1)
-                    updateStatusBar()
-                    return true
-                }
-            }
-        }
-
         // Consume Alt+Space to avoid Android's symbol picker and just insert a space.
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
-            // Record the word before space for suggestions
             
             ic.commitText(" ", 1)
             updateStatusBar()
