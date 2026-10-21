@@ -49,7 +49,7 @@ class VariationBarView(
     private val mainHandler = Handler(Looper.getMainLooper())
     
     // Cache device check to avoid repeated calls
-    private val isQ25Device = DeviceManager.getDevice(context) == "Q25"
+    private val isQ25Device = DeviceManager.getDevice(context) == "Q25" || DeviceManager.getDevice(context) == "titan2"
 
     var onVariationSelectedListener: VariationButtonHandler.OnVariationSelectedListener? = null
     var onCursorMovedListener: (() -> Unit)? = null
@@ -549,7 +549,8 @@ class VariationBarView(
         
         containerView.visibility = View.VISIBLE
         wrapperView.visibility = View.VISIBLE
-        overlayView.visibility = if (isSymModeActive) View.GONE else View.VISIBLE
+        // Transparent overlay blocked touch events for menu and suggestion buttons.
+        overlayView.visibility = View.GONE
 
         // Prioritize suggestions over variations - allow showing more items now with scrolling
         // Allow variations without lastInsertedChar (for default special chars)
